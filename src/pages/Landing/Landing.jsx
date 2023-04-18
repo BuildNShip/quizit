@@ -17,7 +17,7 @@ const Landing = () => {
   useEffect(() => {
     if (initalQuestions === 4) {
       apiGateway
-        .get("quizit/v1/questions")
+        .get("quizit/v1/questions/")
         .then((response) => setQuizQuestions(response.data.response))
         .catch((error) => console.log(error))
     }
@@ -100,6 +100,7 @@ const Landing = () => {
           if (questionNumber === question.id) {
             return (
               <Questions
+                id={question.id}
                 isOpen={isOpen}
                 onClose={onClose}
                 question={question.question}

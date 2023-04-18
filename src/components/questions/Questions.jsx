@@ -9,9 +9,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useToast,
 } from "@chakra-ui/react"
+import apiGateway from "../../services/apiGateway"
 
 const Questions = ({
+  id,
   question,
   choices,
   setQuestionNumber,
@@ -19,6 +22,48 @@ const Questions = ({
   isOpen,
   onClose,
 }) => {
+  const toast = useToast()
+  const [userAnswer, setUserAnswer] = useState("")
+
+  const handleSubmit = () => {
+    console.log(userAnswer)
+
+    if (userAnswer.length > 0) {
+      apiGateway
+        .post("quizit/v1/answer-submit/", {
+          questionId: id,
+          question: question,
+          answer: userAnswer,
+        })
+        .then((response) => {
+          toast({
+            title: "Select a Option",
+            variant: "toast",
+            position: "top-right",
+            duration: 1000,
+            isClosable: true,
+          })
+          setQuestionNumber(questionNumber + 1)
+        })
+        .catch((error) => {
+          toast({
+            title: "Something went wrong!",
+            variant: "toast",
+            position: "top-right",
+            duration: 1000,
+            isClosable: true,
+          })
+        })
+    } else {
+      toast({
+        title: "Select a Option",
+        variant: "toast",
+        position: "top-right",
+        duration: 1000,
+        isClosable: true,
+      })
+    }
+  }
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -35,7 +80,12 @@ const Questions = ({
               <Button
                 margin="0.25rem"
                 className="choice"
-                colorScheme="blackAlpha"
+                colorScheme={
+                  userAnswer === choice.value ? "orange" : "blackAlpha"
+                }
+                onClick={() => {
+                  setUserAnswer(choice.value)
+                }}
               >
                 {choice.value}
               </Button>
@@ -45,7 +95,7 @@ const Questions = ({
         <ModalFooter>
           <Button
             onClick={() => {
-              setQuestionNumber(questionNumber + 1)
+              handleSubmit()
             }}
             colorScheme="orange"
             rounded="10px"
