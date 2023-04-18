@@ -21,7 +21,7 @@ const Landing = () => {
       title: "Enter Key",
       question:
         "Enter the key which you just received in your mail to continue",
-      type: "inp",
+      type: "input",
     },
 
     {
@@ -66,36 +66,21 @@ const Landing = () => {
           </div>
         </div>
       )}
-      {initalQuestions === 1 && (
-        <Questionaire
-          isOpen={isOpen}
-          onClose={onClose}
-          setInitialQuestions={setInitialQuestions}
-          initalQuestions={initalQuestions}
-          title="Minimum Requirements"
-          message="Do you have atleast one hour of uninterupted internet?"
-        />
-      )}
-      {initalQuestions === 2 && (
-        <Questionaire
-          isOpen={isOpen}
-          onClose={onClose}
-          setInitialQuestions={setInitialQuestions}
-          initalQuestions={initalQuestions}
-          title="Enter Key"
-          message="Enter in the key which you just received in your mail to continue"
-        />
-      )}
-      {initalQuestions === 3 && (
-        <Questionaire
-          isOpen={isOpen}
-          onClose={onClose}
-          setInitialQuestions={setInitialQuestions}
-          initalQuestions={initalQuestions}
-          title="Ready to Start?"
-          message="Are you sure you have atleast one hour of uninterupted internet?"
-        />
-      )}
+      {startQuestions.map((question) => {
+        if (initalQuestions === question.id) {
+          return (
+            <Questionaire
+              isOpen={isOpen}
+              onClose={onClose}
+              setInitialQuestions={setInitialQuestions}
+              initalQuestions={initalQuestions}
+              title={question.title}
+              message={question.question}
+              type={question.type}
+            />
+          )
+        }
+      })}
       {initalQuestions === -1 && <p>OK Bei</p>}
     </div>
   )
