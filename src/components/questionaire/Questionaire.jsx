@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Button,
   Modal,
@@ -21,6 +21,7 @@ const Questionaire = ({
   initalQuestions,
   type,
 }) => {
+  const [userKey, setUserKey] = useState("")
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -34,26 +35,17 @@ const Questionaire = ({
           {type === "input" ? (
             <FormControl>
               <FormLabel>{message}</FormLabel>
-              <Input />
+              <Input onChange={(e) => setUserKey(e.target.value)} />
               <ModalFooter margin="0">
                 <Button
                   onClick={() => {
-                    onClose()
-                    setInitialQuestions(-1)
-                  }}
-                  rounded="10px"
-                  colorScheme="black"
-                >
-                  No
-                </Button>
-                <Button
-                  onClick={() => {
                     setInitialQuestions(initalQuestions + 1)
+                    sessionStorage.setItem("userKey", userKey)
                   }}
                   colorScheme="orange"
                   rounded="10px"
                 >
-                  Yes
+                  Submit
                 </Button>
               </ModalFooter>
             </FormControl>

@@ -3,11 +3,25 @@ import styles from "./Landing.module.css"
 import launchpadkerala from "./assets/launchpadkerala.svg"
 import { useDisclosure } from "@chakra-ui/react"
 import Questionaire from "../../components/questionaire/Questionaire"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import questionsData from "../../components/questions/questionsData.json"
+import Questions from "../../components/questions/Questions"
+import apiGateway from "../../services/apiGateway"
 
 const Landing = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [initalQuestions, setInitialQuestions] = useState(0)
+  const [questionNumber, setQuestionNumber] = useState(1)
+  const [quizQuestions, setQuizQuestions] = useState([])
+
+  useEffect(() => {
+    if (initalQuestions === 4) {
+      apiGateway
+        .get("quizit/v1/questions")
+        .then((response) => setQuizQuestions(response.data.response))
+        .catch((error) => console.log(error))
+    }
+  }, [initalQuestions])
 
   const startQuestions = [
     {
@@ -81,6 +95,21 @@ const Landing = () => {
           )
         }
       })}
+      {initalQuestions === 4 &&
+        questionsData.map((question) => {
+          if (questionNumber === question.id) {
+            return (
+              <Questions
+                isOpen={isOpen}
+                onClose={onClose}
+                question={question.question}
+                choices={question.choices}
+                setQuestionNumber={setQuestionNumber}
+                questionNumber={questionNumber}
+              />
+            )
+          }
+        })}
       {initalQuestions === -1 && <p>OK Bei</p>}
     </div>
   )
