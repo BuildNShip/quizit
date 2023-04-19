@@ -26,17 +26,25 @@ const Questions = ({
 }) => {
     const toast = useToast();
     const [userAnswer, setUserAnswer] = useState("");
+    const [startTime, setStartTime] = useState(new Date());
+    const [endTime, setEndTime] = useState(null);
+    const [timeTaken, setTimeTaken] = useState(null);
 
     const handleSubmit = () => {
         console.log(userAnswer);
 
         if (userAnswer.length > 0) {
             const userKey = sessionStorage.getItem("userKey");
+            const diffInMs = new Date().getTime() - startTime.getTime();
+            const diffInSec = Math.round(diffInMs / 1000);
+            setTimeTaken(diffInSec);
+
             apiGateway
                 .post(`quizit/v1/answer-submit/launchpad/${userKey}/`, {
                     questionId: id,
                     question: question,
-                    answer: userAnswer
+                    answer: userAnswer,
+                    timeTaken: diffInSec
                 })
                 .then(response => {
                     toast({
