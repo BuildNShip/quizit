@@ -4,10 +4,11 @@ import { Box, Button, Text } from "@chakra-ui/react";
 import launchpadkerala from "./launchpadkerala.svg";
 import styles from "./Timer.module.css";
 
-const Timer = () => {
-    const [timeLeft, setTimeLeft] = useState(3600); // 300 seconds = 5 minutes
+const Timer = ({ timerTime, setTimerTime }) => {
+    const [timeLeft, setTimeLeft] = useState(timerTime); // 300 seconds = 5 minutes
 
     useEffect(() => {
+        console.log(timerTime);
         // Decrease time left every second
         const interval = setInterval(() => {
             setTimeLeft(prevTime => prevTime - 1);
@@ -21,7 +22,12 @@ const Timer = () => {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
     return (
-        <Box paddingTop="1rem" display="flex" justifyContent="center" alignItems="center">
+        <Box
+            paddingTop="1rem"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+        >
             <img
                 src={launchpadkerala}
                 alt=""

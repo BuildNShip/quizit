@@ -25,15 +25,21 @@ const Questionaire = ({
     const toast = useToast();
     const [userKey, setUserKey] = useState("");
     return (
-        <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnOverlayClick={false}>
-          
+        <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            isCentered
+            closeOnOverlayClick={false}
+        >
             <ModalContent
                 margin="1rem"
                 bg="#1f1f1f"
                 color="#ffffff"
                 fontFamily="Manrope, sans-serif"
             >
-                <ModalHeader  closeButton={false} fontWeight="600">{title}</ModalHeader>
+                <ModalHeader closeButton={false} fontWeight="600">
+                    {title}
+                </ModalHeader>
                 <ModalBody>
                     {type === "input" ? (
                         <FormControl marginRight="0">
@@ -56,7 +62,7 @@ const Questionaire = ({
                                             );
                                             sessionStorage.setItem(
                                                 "userKey",
-                                                userKey
+                                                userKey.replace(/[-_ ]/g, "")
                                             );
                                         }
                                     }}

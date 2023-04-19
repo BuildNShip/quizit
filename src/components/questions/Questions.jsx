@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, CSSProperties } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
+
 import {
     Button,
     Modal,
@@ -29,11 +31,13 @@ const Questions = ({
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(null);
     const [timeTaken, setTimeTaken] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = () => {
         console.log(userAnswer);
-
+        
         if (userAnswer.length > 0) {
+            setLoading(true);
             const userKey = sessionStorage.getItem("userKey");
             const diffInMs = new Date().getTime() - startTime.getTime();
             const diffInSec = Math.round(diffInMs / 1000);
@@ -50,6 +54,7 @@ const Questions = ({
                     toast({
                         title: "Answer Submitted",
                         variant: "toast",
+
                         position: "bottom",
                         duration: 1000,
                         isClosable: true
@@ -61,6 +66,7 @@ const Questions = ({
                     toast({
                         title: error.response.data.message.general[0],
                         variant: "toast",
+                        status: "error",
                         position: "bottom",
                         duration: 1000,
                         isClosable: true
@@ -68,10 +74,12 @@ const Questions = ({
                     setQuestionNumber(questionNumber + 1);
                     setCount(count + 1);
                 });
+
+                setLoading(false);
         } else {
             toast({
                 title: "Select a Option",
-                variant: "toast",
+                status: "error",
                 position: "bottom",
                 duration: 1000,
                 isClosable: true
@@ -123,7 +131,15 @@ const Questions = ({
                         colorScheme="orange"
                         rounded="10px"
                     >
-                        Submit
+                        <span style={{marginRight:"5px"}}>Submit</span>
+                        <ClipLoader
+                            marginLeft="10px"
+                            color="#ffffff"
+                            loading={loading}
+                            size={20}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
                     </Button>
                 </ModalFooter>
             </ModalContent>
