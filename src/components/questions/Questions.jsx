@@ -29,15 +29,16 @@ const Questions = ({
     console.log(userAnswer)
 
     if (userAnswer.length > 0) {
+      const userKey = sessionStorage.getItem("userKey")
       apiGateway
-        .post("quizit/v1/answer-submit/", {
+        .post(`quizit/v1/answer-submit/launchpad/${userKey}/`, {
           questionId: id,
           question: question,
           answer: userAnswer,
         })
         .then((response) => {
           toast({
-            title: "Select a Option",
+            title: "Answer Submitted",
             variant: "toast",
             position: "top-right",
             duration: 1000,

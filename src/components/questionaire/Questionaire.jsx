@@ -18,7 +18,7 @@ const Questionaire = ({
   title,
   message,
   setInitialQuestions,
-  initalQuestions,
+  initialQuestions,
   type,
 }) => {
   const [userKey, setUserKey] = useState("")
@@ -39,7 +39,7 @@ const Questionaire = ({
               <ModalFooter margin="0">
                 <Button
                   onClick={() => {
-                    setInitialQuestions(initalQuestions + 1)
+                    setInitialQuestions(initialQuestions + 1)
                     sessionStorage.setItem("userKey", userKey)
                   }}
                   colorScheme="orange"
@@ -67,7 +67,7 @@ const Questionaire = ({
             </Button>
             <Button
               onClick={() => {
-                setInitialQuestions(initalQuestions + 1)
+                setInitialQuestions(initialQuestions + 1)
               }}
               colorScheme="orange"
               rounded="10px"
