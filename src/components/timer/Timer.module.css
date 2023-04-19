@@ -1,0 +1,7 @@
+.first_view_image {
+    height: 3rem;
+    margin-right: 0.75rem;
+    margin-bottom: 1.25rem;
+    transform: rotate(45deg);
+    object-fit: cover;
+}

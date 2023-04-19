@@ -1,12 +1,15 @@
 import React from "react";
 import styles from "./Landing.module.css";
 import launchpadkerala from "./assets/launchpadkerala.svg";
-import { useDisclosure } from "@chakra-ui/react";
+import { Box, useDisclosure, useToast } from "@chakra-ui/react";
 import Questionaire from "../../components/questionaire/Questionaire";
 import { useState, useEffect } from "react";
 import questionsData from "../../components/questions/questionsData.json";
 import Questions from "../../components/questions/Questions";
 import apiGateway from "../../services/apiGateway";
+import Timer from "../../components/timer/Timer";
+import { Progress } from "@chakra-ui/react";
+import Footer from "../../components/footer/Footer";
 
 const Landing = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -15,6 +18,7 @@ const Landing = () => {
     const [quizQuestions, setQuizQuestions] = useState([]);
     const [count, setCount] = useState(0);
     const [isMappingDone, setIsMappingDone] = useState(false);
+    const toast = useToast();
 
     useEffect(() => {
         const userKey = sessionStorage.getItem("userKey");
@@ -22,9 +26,19 @@ const Landing = () => {
         if (initialQuestions === 4) {
             apiGateway
                 .get(`quizit/v1/questions/launchpad/${userKey}/`)
-                .then(response =>
-                    setQuizQuestions(response.data.response.questions)
-                )
+                .then(response => {
+                    setQuizQuestions(response.data.response.questions);
+                    if (response.data.response.questions.length === 0) {
+                        setInitialQuestions(-1);
+                        toast({
+                            title: "You have already completed the quiz",
+                            variant: "toast",
+                            position: "bottom",
+                            duration: 1000,
+                            isClosable: true
+                        });
+                    }
+                })
                 .catch(error => console.log(error));
         }
     }, [initialQuestions]);
@@ -96,6 +110,7 @@ const Landing = () => {
                 </div>
             )}
             {startQuestions.map(question => {
+               
                 if (initialQuestions === question.id) {
                     return (
                         <Questionaire
@@ -112,6 +127,8 @@ const Landing = () => {
             })}
             {initialQuestions === 4 && quizQuestions && (
                 <div>
+                    <Timer />
+                    
                     {quizQuestions.map((question, index) => {
                         if (questionNumber === index) {
                             return (
@@ -129,11 +146,46 @@ const Landing = () => {
                             );
                         }
                     })}
+                    <Box>
+                        <Progress
+                            size="sm"
+                            hasStripe
+                            colorScheme="orange"
+                            value={(count / quizQuestions.length) * 100}
+                        />
+                        <Box marginTop="1rem" textAlign="center">
+                            <p>
+                                Question {count} of {quizQuestions.length}
+                            </p>
+                        </Box>
+                        
+                    </Box>
                     {isMappingDone && <p>Mapping is done!</p>}
                 </div>
             )}
 
-            {initialQuestions === -1 && <p>OK Bei</p>}
+            {initialQuestions === -1 && (
+                <div className={styles.first_view_container}>
+                    <div className={styles.first_view}>
+                        <p className={styles.first_view_texts}>
+                            <img
+                                src={launchpadkerala}
+                                alt=""
+                                className={styles.first_view_image}
+                            />
+                            <p className={styles.fv_heading}>
+                                Thanks For Your Participation
+                            </p>
+                            <p className={styles.fv_tagline}>
+                                Thanks for taking our quiz! We'll review your
+                                results and get back to you soon. Good luck with
+                                your job search!
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            )}
+            <Footer />
         </div>
     );
 };

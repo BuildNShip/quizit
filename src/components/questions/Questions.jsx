@@ -29,7 +29,6 @@ const Questions = ({
 
     const handleSubmit = () => {
         console.log(userAnswer);
-        setCount(count + 1);
 
         if (userAnswer.length > 0) {
             const userKey = sessionStorage.getItem("userKey");
@@ -43,42 +42,51 @@ const Questions = ({
                     toast({
                         title: "Answer Submitted",
                         variant: "toast",
-                        position: "top-right",
+                        position: "bottom",
                         duration: 1000,
                         isClosable: true
                     });
                     setQuestionNumber(questionNumber + 1);
+                    setCount(count + 1);
                 })
                 .catch(error => {
                     toast({
                         title: error.response.data.message.general[0],
                         variant: "toast",
-                        position: "top-right",
+                        position: "bottom",
                         duration: 1000,
                         isClosable: true
                     });
                     setQuestionNumber(questionNumber + 1);
+                    setCount(count + 1);
                 });
         } else {
             toast({
                 title: "Select a Option",
                 variant: "toast",
-                position: "top-right",
+                position: "bottom",
                 duration: 1000,
                 isClosable: true
             });
         }
     };
     return (
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-            <ModalOverlay />
+        <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            isCentered
+            closeOnOverlayClick={false}
+        >
             <ModalContent
+                margin="1rem"
                 bg="#1f1f1f"
                 color="#ffffff"
                 fontFamily="Manrope, sans-serif"
             >
-                <ModalHeader fontWeight="600">{question}</ModalHeader>
-                <ModalCloseButton />
+                <ModalHeader closeButton={false} fontWeight="600">
+                    {question}
+                </ModalHeader>
+
                 <ModalBody>
                     {choices.map(choice => {
                         return (
