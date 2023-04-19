@@ -13,6 +13,8 @@ const Landing = () => {
     const [initialQuestions, setInitialQuestions] = useState(0);
     const [questionNumber, setQuestionNumber] = useState(0);
     const [quizQuestions, setQuizQuestions] = useState([]);
+    const [count, setCount] = useState(0);
+    const [isMappingDone, setIsMappingDone] = useState(false);
 
     useEffect(() => {
         const userKey = sessionStorage.getItem("userKey");
@@ -26,6 +28,13 @@ const Landing = () => {
                 .catch(error => console.log(error));
         }
     }, [initialQuestions]);
+
+    useEffect(() => {
+        if (count === quizQuestions.length && quizQuestions.length > 0) {
+            setIsMappingDone(true);
+            setInitialQuestions(-1);
+        }
+    }, [quizQuestions, questionNumber]);
 
     const startQuestions = [
         {
@@ -102,7 +111,7 @@ const Landing = () => {
                 }
             })}
             {initialQuestions === 4 && quizQuestions && (
-                <>
+                <div>
                     {quizQuestions.map((question, index) => {
                         if (questionNumber === index) {
                             return (
@@ -114,11 +123,14 @@ const Landing = () => {
                                     choices={question.choices}
                                     setQuestionNumber={setQuestionNumber}
                                     questionNumber={questionNumber}
+                                    setCount={setCount}
+                                    count={count}
                                 />
                             );
-                        } 
+                        }
                     })}
-                </>
+                    {isMappingDone && <p>Mapping is done!</p>}
+                </div>
             )}
 
             {initialQuestions === -1 && <p>OK Bei</p>}
