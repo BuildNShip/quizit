@@ -93,7 +93,7 @@ const Landing = () => {
             {initialQuestions === 0 && (
                 <div className={styles.first_view_container}>
                     <div className={styles.first_view}>
-                        <p className={styles.first_view_texts}>
+                        <div className={styles.first_view_texts}>
                             <img
                                 src={launchpadkerala}
                                 alt=""
@@ -118,7 +118,7 @@ const Landing = () => {
                             >
                                 Start
                             </button>
-                        </p>
+                        </div>
                     </div>
                 </div>
             )}
