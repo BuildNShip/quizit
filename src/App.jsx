@@ -9,7 +9,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/" element={<Landing />} />
-                    <Route path="/launchpad" element={<TestLanding />} />
+                    <Route path="/:id" element={<TestLanding />} />
                 </Routes>
             </Router>
         </div>

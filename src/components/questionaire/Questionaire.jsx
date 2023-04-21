@@ -62,7 +62,9 @@ const Questionaire = ({
                                             );
                                             sessionStorage.setItem(
                                                 "userKey",
-                                                userKey.replace(/[-_ ]/g, "")
+                                                userKey
+                                                    .replace(/[-_ ]/g, "")
+                                                    .toLowerCase()
                                             );
                                         }
                                     }}
