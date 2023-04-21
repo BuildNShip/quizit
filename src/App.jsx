@@ -1,5 +1,5 @@
 import "./App.css"
-import Landing from "./pages/Landing/Landing"
+import TestLanding from "./pages/TestLanding/TestLanding"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 
@@ -8,7 +8,7 @@ function App() {
     <div className="App">
        <Router>
         <Routes>
-          <Route path="/launchpad" element={<Landing />} />
+          <Route path="/launchpad" element={<TestLanding />} />
         </Routes>
       </Router>
       

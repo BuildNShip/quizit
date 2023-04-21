@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Landing.module.css";
+import styles from "./TestLanding.module.css";
 import launchpadkerala from "./assets/launchpadkerala.svg";
 import { Box, useDisclosure, useToast } from "@chakra-ui/react";
 import Questionaire from "../../components/questionaire/Questionaire";
