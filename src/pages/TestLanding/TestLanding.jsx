@@ -10,6 +10,7 @@ import Timer from "../../components/timer/Timer";
 import { Progress } from "@chakra-ui/react";
 import Footer from "../../components/footer/Footer";
 import { ClipLoader } from "react-spinners";
+import { useParams } from "react-router-dom";
 
 const Landing = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -21,11 +22,15 @@ const Landing = () => {
     const [endPageText, setEndPageText] = useState(
         "Thanks For Your Participation"
     );
+    const [eventName, setEventName] = useState("");
     const [timerTime, setTimerTime] = useState(0);
+    const { name } = useParams();
     const toast = useToast();
 
     useEffect(() => {
         sessionStorage.removeItem("userKey");
+        
+        setEventName(name);
     }, []);
 
     useEffect(() => {
@@ -33,7 +38,7 @@ const Landing = () => {
 
         if (initialQuestions === 4) {
             apiGateway
-                .get(`quizit/v1/questions/launchpad/${userKey}/`)
+                .get(`quizit/v1/questions/${eventName}/${userKey}/`)
                 .then(response => {
                     setQuizQuestions(response.data.response.questions);
                     const timeleft = response.data.response.timeRemaining;
@@ -162,6 +167,7 @@ const Landing = () => {
                             if (questionNumber === index) {
                                 return (
                                     <Questions
+                                        eventName={eventName}
                                         id={question.id}
                                         isOpen={isOpen}
                                         onClose={onClose}

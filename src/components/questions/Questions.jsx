@@ -16,6 +16,7 @@ import {
 import apiGateway from "../../services/apiGateway";
 
 const Questions = ({
+    eventName, 
     id,
     question,
     choices,
@@ -44,7 +45,7 @@ const Questions = ({
             setTimeTaken(diffInSec);
 
             apiGateway
-                .post(`quizit/v1/answer-submit/launchpad/${userKey}/`, {
+                .post(`quizit/v1/answer-submit/${eventName}/${userKey}/`, {
                     questionId: id,
                     question: question,
                     answer: userAnswer,

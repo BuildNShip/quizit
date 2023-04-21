@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Landing.module.css";
 import Footer from "../../components/footer/Footer";
+import { useParams } from "react-router-dom";
+
 import {
     Button,
     Modal,
@@ -22,8 +24,11 @@ const Landing = () => {
     const toast = useToast();
     const [quizName, setQuizName] = useState("");
 
+    const { eventName } = useParams();
+
     useEffect(() => {
         setClickAction(0);
+        setQuizName(eventName)
     }, []);
 
     return (
