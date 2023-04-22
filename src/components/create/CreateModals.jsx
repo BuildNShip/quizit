@@ -53,29 +53,13 @@ const CreateModals = ({ isOpen, onClose }) => {
                         fontFamily="Manrope, sans-serif"
                         closeOnOverlayClick={false}
                     >
-                        <ModalHeader>Add a new item</ModalHeader>
+                        <ModalHeader>What is the Name of the Test?</ModalHeader>
                         <ModalBody>
                             <FormControl mb={4}>
-                                <FormLabel>Test Name</FormLabel>
+                                <FormLabel>Enter the Test Name*</FormLabel>
                                 <Input
                                     name="name"
                                     value={formValues.name}
-                                    onChange={handleInputChange}
-                                />
-                            </FormControl>
-                            <FormControl mb={4}>
-                                <FormLabel>Test Title</FormLabel>
-                                <Input
-                                    name="title"
-                                    value={formValues.title}
-                                    onChange={handleInputChange}
-                                />
-                            </FormControl>
-                            <FormControl mb={4}>
-                                <FormLabel>Test Description</FormLabel>
-                                <Textarea
-                                    name="description"
-                                    value={formValues.description}
                                     onChange={handleInputChange}
                                 />
                             </FormControl>
