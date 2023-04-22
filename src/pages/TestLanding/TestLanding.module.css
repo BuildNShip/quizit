@@ -8,7 +8,6 @@
 
 .first_view_image {
     height: 5rem;
-    transform: rotate(45deg);
     object-fit: cover;
     display: block;
     margin: auto;

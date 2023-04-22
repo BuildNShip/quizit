@@ -27,11 +27,29 @@ const Landing = () => {
     const { name } = useParams();
     const toast = useToast();
 
+    const [landingData, setLandingData] = useState({
+        testTitle: "",
+        testDescription: "",
+        testLogo: null
+    });
+
     useEffect(() => {
         sessionStorage.removeItem("userKey");
-        
         setEventName(name);
-    }, []);
+
+        if (eventName.length > 0) {
+            apiGateway
+                .get(`/quizit/v1/test/${eventName}/`)
+                .then(response => {
+                    setLandingData({
+                        ...landingData,
+                        testTitle: response.data.response.testTitle,
+                        testDescription: response.data.response.testDescription
+                    });
+                })
+                .catch(error => console.log(error));
+        }
+    }, [eventName]);
 
     useEffect(() => {
         const userKey = sessionStorage.getItem("userKey");
@@ -100,19 +118,15 @@ const Landing = () => {
                     <div className={styles.first_view}>
                         <div className={styles.first_view_texts}>
                             <img
-                                src={launchpadkerala}
+                                src={`${import.meta.env.VITE_BACKEND_URL}quizit/v1/get-logo/${eventName}/`}
                                 alt=""
                                 className={styles.first_view_image}
                             />
                             <p className={styles.fv_heading}>
-                                Welcome to LaunchPad Kerala 2023
+                                {landingData.testTitle}
                             </p>
                             <p className={styles.fv_tagline}>
-                                Launchpad Kerala connects engineering students
-                                and graduates in Kerala with companies in the
-                                region. It's organized by IEEE Kerala Section
-                                and GTech MuLearn, sponsored by KKEM, and
-                                co-sponsored by NIELIT.
+                                {landingData.testDescription}
                             </p>
                             <button
                                 className={styles.start_button}

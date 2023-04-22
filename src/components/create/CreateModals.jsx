@@ -209,34 +209,33 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 <Button
                                     variant="ghost"
                                     mr={3}
-                                    onClick={onClose}
+                                    onClick={() => {
+                                        setClickAction(0);
+                                        window.location.reload();
+                                    }}
                                 >
                                     Cancel
                                 </Button>
                                 <Button
-                                    colorScheme="orange"
-                                    onClick={e => {
-                                        handleSubmit(e);
+                                    colorScheme="whiteAlpha"
+                                    onClick={() => {
+                                        setClickAction(1);
                                     }}
                                 >
-                                    Submit
+                                    Customize
                                 </Button>
                             </Flex>
                         </Box>
 
                         <div className={styles.bottom_section}>
-                            {formValues?.testTitle?.length > 0 &&
-                            formValues?.testDescription?.length > 0 ? (
-                                <p>Landing Page Cutomized!</p>
-                            ) : (
-                                <p
-                                    onClick={() => {
-                                        setClickAction(1);
-                                    }}
-                                >
-                                    Customize Landing Page?
-                                </p>
-                            )}
+                            <Button
+                                colorScheme="orange"
+                                onClick={e => {
+                                    handleSubmit(e);
+                                }}
+                            >
+                                Create Test
+                            </Button>
                         </div>
                     </div>
                 </>
@@ -282,7 +281,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 <Button
                                     ml={4}
                                     size="sm"
-                                    colorScheme="blackAlpha"
+                                    colorScheme="whiteAlpha"
                                     padding={6}
                                 >
                                     {logo ? "Replace File" : "Choose File"}
@@ -300,7 +299,14 @@ const CreateModals = ({ isOpen, onClose }) => {
                             </Flex>
                         </FormControl>
                         <Flex mt={4} justify="flex-end">
-                            <Button variant="ghost" mr={3} onClick={onClose}>
+                            <Button
+                                variant="ghost"
+                                mr={3}
+                                onClick={() => {
+                                    onClose();
+                                    setClickAction(0);
+                                }}
+                            >
                                 Cancel
                             </Button>
                             <Button
@@ -330,9 +336,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     }
 
                                     if (
-                                        formValues.testTitle.length > 0 &&
                                         formValues.testTitle.length < 50 &&
-                                        formValues.testDescription.length > 0 &&
                                         formValues.testDescription.length < 500
                                     ) {
                                         setClickAction(0);
