@@ -11,8 +11,11 @@ import {
     FormLabel,
     Input,
     Textarea,
-    Button
+    Button,
+    Flex,
+    Box
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const CreateModals = ({ isOpen, onClose }) => {
     const [clickAction, setClickAction] = useState(0);
@@ -29,6 +32,13 @@ const CreateModals = ({ isOpen, onClose }) => {
         questionFile: null,
         testLogo: null
     });
+    const [file, setFile] = useState(null);
+    const [fileName, setFileName] = useState("");
+
+    const handleFileChange = e => {
+        setFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
+    };
 
     const handleInputChange = e => {
         const { name, value } = e.target;
@@ -47,6 +57,7 @@ const CreateModals = ({ isOpen, onClose }) => {
         <>
             {clickAction === 0 && (
                 <Modal isCentered isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
                     <ModalContent
                         bg="#1f1f1f"
                         color="#ffffff"
@@ -63,6 +74,45 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     onChange={handleInputChange}
                                 />
                             </FormControl>
+                            <FormControl mb={4}>
+                                <FormLabel>Upload a File</FormLabel>
+                                <Flex alignItems="center">
+                                    <Box
+                                        borderWidth={1}
+                                        borderColor="gray.300"
+                                        borderRadius="md"
+                                        p={2}
+                                        w="full"
+                                    >
+                                        <Text
+                                            fontSize="sm"
+                                            color="gray.500"
+                                            fontWeight="medium"
+                                            textAlign="center"
+                                        >
+                                            {fileName || "No file selected"}
+                                        </Text>
+                                    </Box>
+                                    <Button
+                                        ml={4}
+                                        size="sm"
+                                        colorScheme="orange"
+                                    >
+                                        {file ? "Replace File" : "Choose File"}
+                                        <Input
+                                            type="file"
+                                            opacity={0}
+                                            position="absolute"
+                                            zIndex={-1}
+                                            onChange={handleFileChange}
+                                        />
+                                    </Button>
+                                </Flex>
+                            </FormControl>
+
+                            <Link href="/path/to/sample/file" download>
+                                Download Sample File
+                            </Link>
                         </ModalBody>
                         <ModalFooter>
                             <Button variant="ghost" mr={3} onClick={onClose}>
@@ -81,60 +131,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                     </ModalContent>
                 </Modal>
             )}
-            {clickAction === 1 && (
-                <Modal isCentered isOpen={isOpen} onClose={onClose}>
-                    <ModalContent
-                        bg="#1f1f1f"
-                        color="#ffffff"
-                        fontFamily="Manrope, sans-serif"
-                        closeOnOverlayClick={false}
-                    >
-                        <ModalHeader>Test Settings</ModalHeader>
-                        <ModalBody>
-                            <FormControl mb={4}>
-                                <FormLabel>Report Password</FormLabel>
-                                <Input
-                                    name="reportPassword"
-                                    value={formValues.reportPassword}
-                                    onChange={handleInputChange}
-                                />
-                            </FormControl>
-                            <FormControl mb={4}>
-                                <FormLabel>Show Score</FormLabel>
-                                <Input
-                                    name="showScore"
-                                    value={formValues.showScore}
-                                    onChange={handleInputChange}
-                                />
-                            </FormControl>
-                            <FormControl mb={4}>
-                                <FormLabel>Show Answer Log</FormLabel>
-                                <Input
-                                    name="showAnswerLog"
-                                    value={formValues.showAnswerLog}
-                                    onChange={handleInputChange}
-                                />
-                            </FormControl>
-                            <FormControl mb={4}>
-                                <FormLabel>Show Correct Answer</FormLabel>
-                                <Input
-                                    name="showCorrectAnswer"
-                                    value={formValues.showCorrectAnswer}
-                                    onChange={handleInputChange}
-                                />
-                            </FormControl>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button variant="ghost" mr={3} onClick={onClose}>
-                                Cancel
-                            </Button>
-                            <Button colorScheme="orange" onClick={handleSubmit}>
-                                Submit
-                            </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            )}
+           
         </>
     );
 };
