@@ -29,13 +29,6 @@ const Landing = () => {
 
     const { eventName } = useParams();
 
-    const [options, setOptions] = useState({
-        option1: false,
-        option2: false,
-        option3: false,
-        option4: false
-    });
-
     useEffect(() => {
         setClickAction(0);
         setQuizName(eventName);

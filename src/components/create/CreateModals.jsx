@@ -23,17 +23,17 @@ const CreateModals = ({ isOpen, onClose }) => {
         name: "",
         title: "",
         description: "",
-        reportPassword: "",
+        reportPassword: null,
         showScore: true,
         showAnswerLog: false,
-        showCorrectAnswer: true,
-        questionsPerUser: 20,
-        totalTime: 60,
+        showCorrectAnswer: false,
+        questionsPerUser: null,
+        totalTime: null,
         questionFile: null,
         testLogo: null
     });
     const [file, setFile] = useState(null);
-    const [fileName, setFileName] = useState("");
+    const [fileName, setFileName] = useState("No File Found");
 
     const handleFileChange = e => {
         setFile(e.target.files[0]);
@@ -56,15 +56,14 @@ const CreateModals = ({ isOpen, onClose }) => {
     return (
         <>
             {clickAction === 0 && (
-                <Modal isCentered isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
+                <Modal closeOnOverlayClick={false} isCentered isOpen={isOpen} onClose={onClose}>
                     <ModalContent
                         bg="#1f1f1f"
                         color="#ffffff"
                         fontFamily="Manrope, sans-serif"
-                        closeOnOverlayClick={false}
+                        
                     >
-                        <ModalHeader>What is the Name of the Test?</ModalHeader>
+                        <ModalHeader>Basic Information</ModalHeader>
                         <ModalBody>
                             <FormControl mb={4}>
                                 <FormLabel>Enter the Test Name*</FormLabel>
@@ -75,7 +74,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 />
                             </FormControl>
                             <FormControl mb={4}>
-                                <FormLabel>Upload a File</FormLabel>
+                                <FormLabel>Upload Questions File*</FormLabel>
                                 <Flex alignItems="center">
                                     <Box
                                         borderWidth={1}
@@ -83,34 +82,31 @@ const CreateModals = ({ isOpen, onClose }) => {
                                         borderRadius="md"
                                         p={2}
                                         w="full"
+                                        fontSize="sm"
+                                        color="gray.500"
+                                        fontWeight="medium"
+                                        textAlign="center"
                                     >
-                                        <Text
-                                            fontSize="sm"
-                                            color="gray.500"
-                                            fontWeight="medium"
-                                            textAlign="center"
-                                        >
-                                            {fileName || "No file selected"}
-                                        </Text>
+                                        {fileName}
                                     </Box>
                                     <Button
                                         ml={4}
                                         size="sm"
                                         colorScheme="orange"
+                                        padding={5}
                                     >
                                         {file ? "Replace File" : "Choose File"}
                                         <Input
                                             type="file"
                                             opacity={0}
                                             position="absolute"
-                                            zIndex={-1}
                                             onChange={handleFileChange}
                                         />
                                     </Button>
                                 </Flex>
                             </FormControl>
 
-                            <Link href="/path/to/sample/file" download>
+                            <Link color="orange" href="/path/to/sample/file" download>
                                 Download Sample File
                             </Link>
                         </ModalBody>
@@ -131,7 +127,6 @@ const CreateModals = ({ isOpen, onClose }) => {
                     </ModalContent>
                 </Modal>
             )}
-           
         </>
     );
 };
