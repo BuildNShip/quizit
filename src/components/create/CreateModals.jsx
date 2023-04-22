@@ -4,6 +4,8 @@ import { Box, Flex, Textarea } from "@chakra-ui/react";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { Link, Button } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
+import axios from "axios";
+import apiGateway from "../../services/apiGateway";
 
 const CreateModals = ({ isOpen, onClose }) => {
     const [clickAction, setClickAction] = useState(0);
@@ -23,20 +25,24 @@ const CreateModals = ({ isOpen, onClose }) => {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("No File Found");
 
-    const [logo, setLogo] = useState(null)
-    const [logoName, setLogoName] = useState("No File Found")
+    const [logo, setLogo] = useState(null);
+    const [logoName, setLogoName] = useState("No File Found");
     const toast = useToast();
 
     const handleFileChange = e => {
-        setFile(e.target.files[0]);
+        const tempFile = e.target.files[0];
+        setFile(tempFile);
+
         setFileName(e.target.files[0].name);
+        setFormValues({ ...formValues, questionFile: tempFile });
     };
 
     const handleLogoChange = e => {
-        setLogo(e.target.files[0]);
+        const tempLogo = e.target.files[0];
+        setLogo(tempLogo);
         setLogoName(e.target.files[0].name);
+        setFormValues({ ...formValues, testLogo: tempLogo });
     };
-
 
     const handleInputChange = e => {
         const { name, value } = e.target;
@@ -53,8 +59,48 @@ const CreateModals = ({ isOpen, onClose }) => {
                 duration: 1000,
                 isClosable: true
             });
-        } else {
-            setClickAction(1);
+        }
+        if (!file) {
+            toast({
+                title: "Upload a File to Continue.",
+                variant: "toast",
+                position: "bottom",
+                duration: 1000,
+                isClosable: true
+            });
+        }
+
+        if (pattern.test(formValues.testName) && file) {
+            const testConfig = {
+                testName: formValues.testName,
+                testTitle: formValues.testTitle,
+                testDescription: formValues.testDescription,
+                reportPassword: formValues.reportPassword,
+                showScore: formValues.showScore,
+                showAnswerLog: formValues.showAnswerLog,
+                showCorrectAnswers: formValues.showCorrectAnswer,
+                questionsPerUser: formValues.questionsPerUser,
+                totalTime: formValues.totalTime,
+                testLogo: formValues.testLogo,
+                questionFile: formValues.questionFile
+            };
+
+            const formData = new FormData();
+            Object.keys(testConfig).forEach(key => {
+                formData.append(key, testConfig[key]);
+            });
+
+            axios
+                .post(
+                    `${import.meta.env.VITE_BACKEND_URL}quizit/v1/create-test/`,
+                    formData
+                )
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         }
 
         e.preventDefault();
@@ -146,8 +192,7 @@ const CreateModals = ({ isOpen, onClose }) => {
 
                         <div className={styles.bottom_section}>
                             {formValues?.testTitle?.length > 0 &&
-                            formValues?.testDescription?.length > 0 &&
-                            formValues?.reportPassword?.length > 0 ? (
+                            formValues?.testDescription?.length > 0 ? (
                                 <p>Landing Page Cutomized!</p>
                             ) : (
                                 <p
@@ -250,11 +295,12 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     }
 
                                     if (
+                                        formValues.testTitle.length > 0 &&
                                         formValues.testTitle.length < 50 &&
+                                        formValues.testDescription.length > 0 &&
                                         formValues.testDescription.length < 500
                                     ) {
                                         setClickAction(0);
-                                        console.log("Hoi");
                                         toast({
                                             title: "Landing Page Customized",
                                             variant: "toast",
