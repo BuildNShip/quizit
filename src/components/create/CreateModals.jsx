@@ -38,6 +38,17 @@ const CreateModals = ({ isOpen, onClose }) => {
     };
 
     const handleLogoChange = e => {
+        if (e.target.files[0].size > 20000) {
+            toast({
+                title: "File size is too large. Please upload a logo less than 20Kb.",
+                variant: "toast",
+                position: "bottom",
+                duration: 1000,
+                isClosable: true
+            });
+            return;
+        }
+
         const tempLogo = e.target.files[0];
         setLogo(tempLogo);
         setLogoName(e.target.files[0].name);
@@ -96,10 +107,32 @@ const CreateModals = ({ isOpen, onClose }) => {
                     formData
                 )
                 .then(response => {
-                    console.log(response.data);
+                    toast({
+                        title: "Test Created Successfully",
+                        variant: "toast",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true
+                    });
                 })
                 .catch(error => {
-                    console.error(error);
+                    if (error.response.data.hasError) {
+                        Object.keys(error.response.data.message).forEach(
+                            key => {
+                                error.response.data.message[key].forEach(
+                                    message => {
+                                        toast({
+                                            title: "Error",
+                                            description: message,
+                                            status: "error",
+                                            duration: 5000,
+                                            isClosable: true
+                                        });
+                                    }
+                                );
+                            }
+                        );
+                    }
                 });
         }
 
@@ -157,6 +190,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                             name="questionFile"
                                             opacity={0}
                                             position="absolute"
+                                            accept=".json"
                                             onChange={e => {
                                                 handleFileChange(e);
                                             }}
@@ -257,6 +291,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                         name="questionFile"
                                         opacity={0}
                                         position="absolute"
+                                        accept=".png, .jpg, .jpeg"
                                         onChange={e => {
                                             handleLogoChange(e);
                                         }}
