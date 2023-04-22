@@ -15,6 +15,8 @@ import {
     FormLabel,
     Input,
     useToast,
+    Stack,
+    Checkbox,
     useDisclosure
 } from "@chakra-ui/react";
 
@@ -26,9 +28,16 @@ const Landing = () => {
 
     const { eventName } = useParams();
 
+    const [options, setOptions] = useState({
+        option1: false,
+        option2: false,
+        option3: false,
+        option4: false
+    });
+
     useEffect(() => {
         setClickAction(0);
-        setQuizName(eventName)
+        setQuizName(eventName);
     }, []);
 
     return (
@@ -49,12 +58,18 @@ const Landing = () => {
                             </p>
 
                             <div className={styles.fv_buttons}>
-                                <button className={styles.start_button}>
+                                <button
+                                    onClick={() => {
+                                        setClickAction(2);
+                                        onOpen();
+                                    }}
+                                    className={styles.start_button}
+                                >
                                     Create Quiz
                                 </button>
                                 <button
                                     onClick={() => {
-                                        setClickAction(clickAction + 1);
+                                        setClickAction(1);
                                         onOpen();
                                     }}
                                     className={styles.fv_button}
@@ -102,7 +117,6 @@ const Landing = () => {
                                                 isClosable: true
                                             });
                                         } else {
-                                            //redirect ot /quiz/:quizName
                                             window.location.href = `/${quizName}`;
                                         }
                                     }}
@@ -118,6 +132,7 @@ const Landing = () => {
                     </ModalBody>
                 </Modal>
             )}
+            {clickAction === 2 && <p>Quiz Maker</p>}
 
             <Footer />
         </div>
