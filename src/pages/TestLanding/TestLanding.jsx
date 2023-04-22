@@ -38,7 +38,7 @@ const Landing = () => {
 
         if (initialQuestions === 4) {
             apiGateway
-                .get(`quizit/v1/questions/${eventName}/${userKey}/`)
+                .get(`quizit/v1/test/questions/${eventName}/${userKey}/`)
                 .then(response => {
                     setQuizQuestions(response.data.response.questions);
                     const timeleft = response.data.response.timeRemaining;
