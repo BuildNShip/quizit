@@ -1,0 +1,21 @@
+.modal_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 96vh;
+}
+
+.box_container {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    font-family: "Manrope", sans-serif;
+    padding: 16px;
+    min-width: 400px;
+    border-radius: 4px;
+}
+
+.bottom_section {
+    margin-top: 2rem;
+    color: #f7862b;
+}
