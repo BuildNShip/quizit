@@ -1,21 +1,8 @@
 import React, { useState } from "react";
 import styles from "./CreateModals.module.css";
-import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    FormControl,
-    FormLabel,
-    Input,
-    Textarea,
-    Button,
-    Flex,
-    Box
-} from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Box, Flex } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Link, Button } from "@chakra-ui/react";
 
 const CreateModals = ({ isOpen, onClose }) => {
     const [clickAction, setClickAction] = useState(0);
@@ -56,15 +43,14 @@ const CreateModals = ({ isOpen, onClose }) => {
     return (
         <>
             {clickAction === 0 && (
-                <Modal closeOnOverlayClick={false} isCentered isOpen={isOpen} onClose={onClose}>
-                    <ModalContent
-                        bg="#1f1f1f"
-                        color="#ffffff"
-                        fontFamily="Manrope, sans-serif"
-                        
-                    >
-                        <ModalHeader>Basic Information</ModalHeader>
-                        <ModalBody>
+                <>
+                    <div className={styles.modal_container}>
+                        <Box
+                            className={styles.box_container}
+                        >
+                            <Box as="h2" fontWeight="bold" fontSize="lg" mb={4}>
+                                Basic Information
+                            </Box>
                             <FormControl mb={4}>
                                 <FormLabel>Enter the Test Name*</FormLabel>
                                 <Input
@@ -92,8 +78,8 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     <Button
                                         ml={4}
                                         size="sm"
-                                        colorScheme="orange"
-                                        padding={5}
+                                        colorScheme="blackAlpha"
+                                        padding={6}
                                     >
                                         {file ? "Replace File" : "Choose File"}
                                         <Input
@@ -105,27 +91,38 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     </Button>
                                 </Flex>
                             </FormControl>
-
-                            <Link color="orange" href="/path/to/sample/file" download>
+                            <Link
+                                color="orange"
+                                href="/path/to/sample/file"
+                                download
+                            >
                                 Download Sample File
                             </Link>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button variant="ghost" mr={3} onClick={onClose}>
-                                Cancel
-                            </Button>
-                            <Button
-                                colorScheme="orange"
-                                onClick={e => {
-                                    setClickAction(1);
-                                    handleSubmit(e);
-                                }}
-                            >
-                                Submit
-                            </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
+                            <Flex mt={4} justify="flex-end">
+                                <Button
+                                    variant="ghost"
+                                    mr={3}
+                                    onClick={onClose}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    colorScheme="orange"
+                                    onClick={e => {
+                                        setClickAction(1);
+                                        handleSubmit(e);
+                                    }}
+                                >
+                                    Submit
+                                </Button>
+                            </Flex>
+                        </Box>
+
+                        <div className={styles.bottom_section}>
+                            <p>Customize Landing Page?</p>
+                        </div>
+                    </div>
+                </>
             )}
         </>
     );
