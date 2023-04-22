@@ -19,6 +19,7 @@ import {
     Checkbox,
     useDisclosure
 } from "@chakra-ui/react";
+import CreateModals from "../../components/create/CreateModals";
 
 const Landing = () => {
     const [clickAction, setClickAction] = useState(0);
@@ -132,7 +133,8 @@ const Landing = () => {
                     </ModalBody>
                 </Modal>
             )}
-            {clickAction === 2 && <p>Quiz Maker</p>}
+            {clickAction === 2 && <CreateModals isOpen={isOpen}
+                    onClose={onClose}/>}
 
             <Footer />
         </div>
