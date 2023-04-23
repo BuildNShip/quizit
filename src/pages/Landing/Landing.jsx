@@ -111,7 +111,7 @@ const Landing = () => {
                                                 isClosable: true
                                             });
                                         } else {
-                                            window.location.href = `/${quizName}`;
+                                            // window.location.href = `/${quizName}`;
                                         }
                                     }}
                                     colorScheme="orange"

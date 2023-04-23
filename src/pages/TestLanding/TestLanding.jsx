@@ -118,15 +118,21 @@ const Landing = () => {
                     <div className={styles.first_view}>
                         <div className={styles.first_view_texts}>
                             <img
-                                src={`${import.meta.env.VITE_BACKEND_URL}quizit/v1/get-logo/${eventName}/`}
+                                src={`${
+                                    import.meta.env.VITE_BACKEND_URL
+                                }quizit/v1/get-logo/${eventName}/`}
                                 alt=""
                                 className={styles.first_view_image}
                             />
                             <p className={styles.fv_heading}>
-                                {landingData.testTitle}
+                                {landingData.testTitle.length > 0
+                                    ? landingData.testTitle
+                                    : `Welcome to the ${eventName} Quiz`}
                             </p>
                             <p className={styles.fv_tagline}>
-                                {landingData.testDescription}
+                                {landingData.testDescription > 0
+                                    ? landingData.testDescription
+                                    : `This is a quiz for ${eventName}, please read the instructions carefully before starting the quiz. You must have at least one hour of uninterrupted internet to take this quiz.`}
                             </p>
                             <button
                                 className={styles.start_button}

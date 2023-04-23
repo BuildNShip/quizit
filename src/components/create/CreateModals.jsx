@@ -162,7 +162,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     }}
                                 />
                             </FormControl>
-                            <FormControl mb={4}>
+                            <FormControl>
                                 <FormLabel>Upload Questions File*</FormLabel>
                                 <Flex alignItems="center">
                                     <Box
@@ -198,44 +198,51 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     </Button>
                                 </Flex>
                             </FormControl>
-                            <Link
-                                color="orange"
-                                href="/path/to/sample/file"
-                                download
-                            >
-                                Download Sample File
-                            </Link>
-                            <Flex mt={4} justify="flex-end">
-                                <Button
-                                    variant="ghost"
-                                    mr={3}
-                                    onClick={() => {
-                                        setClickAction(0);
-                                        window.location.reload();
-                                    }}
+
+                            <p className={styles.download_sample}>
+                                To Download sample template file for questions.
+                                <Link
+                                    color="orange"
+                                    href="/path/to/sample/file"
+                                    download
+                                    style={{ marginTop: "-3rem" }}
                                 >
-                                    Cancel
-                                </Button>
-                                <Button
+                                    <span> Click Here.</span>
+                                </Link>
+                            </p>
+
+                            <Flex mt={4} justify="flex-end">
+                                {/* <Button
                                     colorScheme="whiteAlpha"
                                     onClick={() => {
                                         setClickAction(1);
                                     }}
                                 >
                                     Customize
-                                </Button>
+                                </Button> */}
                             </Flex>
                         </Box>
-
-                        <div className={styles.bottom_section}>
-                            <Button
-                                colorScheme="orange"
+                        <p className={styles.customize_landing}>
+                            Customize Landing Page?
+                        </p>
+                        <div className={styles.button_container}>
+                            <button
                                 onClick={e => {
                                     handleSubmit(e);
                                 }}
+                                className={styles.button}
                             >
                                 Create Test
-                            </Button>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setClickAction(0);
+                                    window.location.reload();
+                                }}
+                                className={styles.button_secondary}
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </div>
                 </>
