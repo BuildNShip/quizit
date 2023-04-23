@@ -47,6 +47,8 @@ const Landing = () => {
                         testTitle: response.data.response.testTitle,
                         testDescription: response.data.response.testDescription
                     });
+                    console.log(landingData);
+                    setStatusCode(response.data.statusCode);
                 })
                 .catch(error => {
                     toast({
@@ -57,8 +59,8 @@ const Landing = () => {
                         duration: 2500,
                         isClosable: true
                     });
-                    setStatusCode(error.response.status);
-                    
+                    setStatusCode(error.response.data.statusCode);
+                    console.log(statusCode);
                 });
         }
     }, [eventName]);
@@ -142,7 +144,7 @@ const Landing = () => {
                                     : `Welcome to the ${eventName} Quiz`}
                             </p>
                             <p className={styles.fv_tagline}>
-                                {landingData.testDescription > 0
+                                {landingData.testDescription.length > 0
                                     ? landingData.testDescription
                                     : `This is a quiz for ${eventName}, please read the instructions carefully before starting the quiz. You must have at least one hour of uninterrupted internet to take this quiz.`}
                             </p>
