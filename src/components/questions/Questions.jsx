@@ -10,13 +10,14 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Box,
     Text,
     useToast
 } from "@chakra-ui/react";
 import apiGateway from "../../services/apiGateway";
 
 const Questions = ({
-    eventName, 
+    eventName,
     id,
     question,
     choices,
@@ -36,7 +37,7 @@ const Questions = ({
 
     const handleSubmit = () => {
         console.log(userAnswer);
-        
+
         if (userAnswer.length > 0) {
             setLoading(true);
             const userKey = sessionStorage.getItem("userKey");
@@ -76,7 +77,7 @@ const Questions = ({
                     setCount(count + 1);
                 });
 
-                setLoading(false);
+            setLoading(false);
         } else {
             toast({
                 title: "Select a Option",
@@ -88,63 +89,54 @@ const Questions = ({
         }
     };
     return (
-        <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-            isCentered
-            closeOnOverlayClick={false}
+        <Box
+            bg="rgba(0, 0, 0, 0.6)"
+            zIndex={100}
         >
-            <ModalContent
-                margin="1rem"
+            <Box
                 bg="#1f1f1f"
                 color="#ffffff"
-                fontFamily="Manrope, sans-serif"
+                borderRadius="md"
+                p="1rem"
+                minWidth="300px"
+                maxWidth="500px"
+                textAlign="center"
             >
-                <ModalHeader closeButton={false} fontWeight="600">
+                <Box fontWeight="600" mb="1rem">
                     {question}
-                </ModalHeader>
-
-                <ModalBody>
-                    {choices.map(choice => {
-                        return (
-                            <Button
-                                margin="0.25rem"
-                                className="choice"
-                                colorScheme={
-                                    userAnswer === choice.value
-                                        ? "orange"
-                                        : "blackAlpha"
-                                }
-                                onClick={() => {
-                                    setUserAnswer(choice.value);
-                                }}
-                            >
-                                {choice.value}
-                            </Button>
-                        );
-                    })}
-                </ModalBody>
-                <ModalFooter>
-                    <Button
-                        onClick={() => {
-                            handleSubmit();
-                        }}
-                        colorScheme="orange"
-                        rounded="10px"
-                    >
-                        <span style={{marginRight:"5px"}}>Submit</span>
-                        <ClipLoader
-                            marginLeft="10px"
-                            color="#ffffff"
-                            loading={loading}
-                            size={20}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
-                    </Button>
-                </ModalFooter>
-            </ModalContent>
-        </Modal>
+                </Box>
+                <Box fontWeight="600" mb="1rem">
+                    {choices.map(choice => (
+                        <Button
+                            key={choice.id}
+                            margin="0.25rem"
+                            className="choice"
+                            colorScheme={
+                                userAnswer === choice.value
+                                    ? "orange"
+                                    : "blackAlpha"
+                            }
+                            onClick={() => {
+                                setUserAnswer(choice.value);
+                            }}
+                        >
+                            {choice.value}
+                        </Button>
+                    ))}
+                </Box>
+                <Button
+                    mt="1rem"
+                    onClick={() => {
+                        handleSubmit();
+                    }}
+                    colorScheme="orange"
+                    rounded="10px"
+                    disabled={!userAnswer || loading}
+                >
+                    <span style={{ marginRight: "5px" }}>Submit</span>
+                </Button>
+            </Box>
+        </Box>
     );
 };
 

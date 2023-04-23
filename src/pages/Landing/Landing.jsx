@@ -20,12 +20,14 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 import CreateModals from "../../components/create/CreateModals";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
     const [clickAction, setClickAction] = useState(0);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
     const [quizName, setQuizName] = useState("");
+    const navigate = useNavigate();
 
     const { eventName } = useParams();
 
@@ -111,7 +113,7 @@ const Landing = () => {
                                                 isClosable: true
                                             });
                                         } else {
-                                            // window.location.href = `/${quizName}`;
+                                            navigate(`/${quizName}`);
                                         }
                                     }}
                                     colorScheme="orange"
@@ -126,8 +128,9 @@ const Landing = () => {
                     </ModalBody>
                 </Modal>
             )}
-            {clickAction === 2 && <CreateModals isOpen={isOpen}
-                    onClose={onClose}/>}
+            {clickAction === 2 && (
+                <CreateModals isOpen={isOpen} onClose={onClose} />
+            )}
 
             <Footer />
         </div>

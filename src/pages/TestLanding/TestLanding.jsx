@@ -10,7 +10,7 @@ import Timer from "../../components/timer/Timer";
 import { Progress } from "@chakra-ui/react";
 import Footer from "../../components/footer/Footer";
 import { ClipLoader } from "react-spinners";
-import { useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 
 const Landing = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,6 +24,7 @@ const Landing = () => {
     );
     const [eventName, setEventName] = useState("");
     const [timerTime, setTimerTime] = useState(0);
+    const [statusCode, setStatusCode] = useState(0);
     const { name } = useParams();
     const toast = useToast();
 
@@ -47,7 +48,18 @@ const Landing = () => {
                         testDescription: response.data.response.testDescription
                     });
                 })
-                .catch(error => console.log(error));
+                .catch(error => {
+                    toast({
+                        title: error.response.data.message.general[0],
+                        variant: "toast",
+                        status: "error",
+                        position: "top",
+                        duration: 2500,
+                        isClosable: true
+                    });
+                    setStatusCode(error.response.status);
+                    
+                });
         }
     }, [eventName]);
 
@@ -111,7 +123,7 @@ const Landing = () => {
         }
     ];
 
-    return (
+    return statusCode === 200 ? (
         <div className={styles.background_container}>
             {initialQuestions === 0 && (
                 <div className={styles.first_view_container}>
@@ -164,7 +176,7 @@ const Landing = () => {
             })}
             {initialQuestions === 4 && quizQuestions && (
                 <div>
-                    {timerTime && timerTime > 0 ? (
+                    {/* {timerTime && timerTime > 0 ? (
                         <Timer
                             timerTime={timerTime}
                             setTimerTime={setTimerTime}
@@ -180,27 +192,8 @@ const Landing = () => {
                                 data-testid="loader"
                             />
                         </div>
-                    )}
+                    )} */}
 
-                    {quizQuestions &&
-                        quizQuestions.map((question, index) => {
-                            if (questionNumber === index) {
-                                return (
-                                    <Questions
-                                        eventName={eventName}
-                                        id={question.id}
-                                        isOpen={isOpen}
-                                        onClose={onClose}
-                                        question={question.question}
-                                        choices={question.choices}
-                                        setQuestionNumber={setQuestionNumber}
-                                        questionNumber={questionNumber}
-                                        setCount={setCount}
-                                        count={count}
-                                    />
-                                );
-                            }
-                        })}
                     {quizQuestions && quizQuestions.length !== 0 && (
                         <Box>
                             <Progress
@@ -216,10 +209,34 @@ const Landing = () => {
                             </Box>
                         </Box>
                     )}
-                    {isMappingDone && <p>Mapping is done!</p>}
+
+                    <div className={styles.questions_container}>
+                        {quizQuestions &&
+                            quizQuestions.map((question, index) => {
+                                if (questionNumber === index) {
+                                    return (
+                                        <Questions
+                                            eventName={eventName}
+                                            id={question.id}
+                                            isOpen={isOpen}
+                                            onClose={onClose}
+                                            question={question.question}
+                                            choices={question.choices}
+                                            setQuestionNumber={
+                                                setQuestionNumber
+                                            }
+                                            questionNumber={questionNumber}
+                                            setCount={setCount}
+                                            count={count}
+                                        />
+                                    );
+                                }
+                            })}
+
+                        {isMappingDone && <p>Mapping is done!</p>}
+                    </div>
                 </div>
             )}
-
             {initialQuestions === -1 && (
                 <div className={styles.first_view_container}>
                     <div className={styles.first_view}>
@@ -241,6 +258,22 @@ const Landing = () => {
             )}
             <Footer />
         </div>
+    ) : (
+        <>
+            {statusCode === 400 && <Navigate to="/" replace={true} />}
+            <div className={styles.background_container}>
+                <div className={styles.first_view_container}>
+                    <ClipLoader
+                        color="#f7862b"
+                        size={70}
+                        loading={true}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
+                    <Footer />
+                </div>
+            </div>
+        </>
     );
 };
 
