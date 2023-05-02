@@ -11,6 +11,7 @@ import { Progress } from "@chakra-ui/react";
 import Footer from "../../components/footer/Footer";
 import { ClipLoader } from "react-spinners";
 import { Link, useParams, Navigate } from "react-router-dom";
+import EndPage from "../../components/endpage/EndPage";
 
 const Landing = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -178,24 +179,12 @@ const Landing = () => {
             })}
             {initialQuestions === 4 && quizQuestions && (
                 <div>
-                    {timerTime && timerTime > 0 ? (
+                    {timerTime && timerTime > 0 && (
                         <Timer
                             timerTime={timerTime}
                             setTimerTime={setTimerTime}
                         />
-                    ) : (
-                        <div className={styles.center}>
-                            <ClipLoader
-                                marginLeft="10px"
-                                color="#f7862b"
-                                size={70}
-                                loading={true}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                            />
-                        </div>
                     )}
-
                     {quizQuestions && quizQuestions.length !== 0 && (
                         <Box>
                             <Progress
@@ -211,7 +200,6 @@ const Landing = () => {
                             </Box>
                         </Box>
                     )}
-
                     <div className={styles.questions_container}>
                         {quizQuestions &&
                             quizQuestions.map((question, index) => {
@@ -239,25 +227,7 @@ const Landing = () => {
                     </div>
                 </div>
             )}
-            {initialQuestions === -1 && (
-                <div className={styles.first_view_container}>
-                    <div className={styles.first_view}>
-                        <p className={styles.first_view_texts}>
-                            <img
-                                src={launchpadkerala}
-                                alt=""
-                                className={styles.first_view_image}
-                            />
-                            <p className={styles.fv_heading}>{endPageText}</p>
-                            <p className={styles.fv_tagline}>
-                                Thanks for taking our quiz! We'll review your
-                                results and get back to you soon. Good luck with
-                                your job search!
-                            </p>
-                        </p>
-                    </div>
-                </div>
-            )}
+            {initialQuestions === -1 && <EndPage endPageText={endPageText} />}
             <Footer />
         </div>
     ) : (
