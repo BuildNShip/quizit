@@ -3,8 +3,11 @@ import { useState, useEffect } from "react";
 import { Box, Button, Text } from "@chakra-ui/react";
 import launchpadkerala from "./launchpadkerala.svg";
 import styles from "./Timer.module.css";
+import { useParams } from "react-router-dom";
+import apiGateway from "../../services/apiGateway";
 
 const Timer = ({ timerTime, setTimerTime }) => {
+    const { name } = useParams();
     const [timeLeft, setTimeLeft] = useState(timerTime); // 300 seconds = 5 minutes
 
     useEffect(() => {
@@ -29,7 +32,9 @@ const Timer = ({ timerTime, setTimerTime }) => {
             alignItems="center"
         >
             <img
-                src={launchpadkerala}
+                src={`${
+                    import.meta.env.VITE_BACKEND_URL
+                }quizit/v1/get-logo/${name}/`}
                 alt=""
                 className={styles.first_view_image}
             />

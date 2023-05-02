@@ -6,6 +6,7 @@ import { Link, Button } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import apiGateway from "../../services/apiGateway";
+import { useParams } from "react-router-dom";
 
 const CreateModals = ({ isOpen, onClose }) => {
     const [clickAction, setClickAction] = useState(0);
@@ -101,7 +102,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                 formData.append(key, testConfig[key]);
             });
 
-            axios
+            apiGateway
                 .post(
                     `${import.meta.env.VITE_BACKEND_URL}quizit/v1/create-test/`,
                     formData

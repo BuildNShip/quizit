@@ -70,7 +70,7 @@ const Landing = () => {
 
         if (initialQuestions === 4) {
             apiGateway
-                .get(`quizit/v1/test/questions/${eventName}/${userKey}/`)
+                .get(`/quizit/v1/test/questions/${eventName}/${userKey}/`)
                 .then(response => {
                     setQuizQuestions(response.data.response.questions);
                     const timeleft = response.data.response.timeRemaining;
@@ -178,7 +178,7 @@ const Landing = () => {
             })}
             {initialQuestions === 4 && quizQuestions && (
                 <div>
-                    {/* {timerTime && timerTime > 0 ? (
+                    {timerTime && timerTime > 0 ? (
                         <Timer
                             timerTime={timerTime}
                             setTimerTime={setTimerTime}
@@ -194,7 +194,7 @@ const Landing = () => {
                                 data-testid="loader"
                             />
                         </div>
-                    )} */}
+                    )}
 
                     {quizQuestions && quizQuestions.length !== 0 && (
                         <Box>
