@@ -139,3 +139,10 @@
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
+
+.doughnut_container {
+    margin: 1rem;
+    width: 250px;
+    color: white;
+    height: 250px;
+}

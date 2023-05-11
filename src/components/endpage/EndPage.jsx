@@ -25,6 +25,13 @@ const EndPage = ({ endPageText }) => {
             }
         ]
     });
+    const [chartOptions, setChartOptions] = useState({
+        responsive: false,
+        maintainAspectRatio: false,
+        // You can also set the size of the chart using the following properties:
+        height: 1000,
+        width: 1000
+    });
 
     useEffect(() => {
         console.log(localStorage.getItem("userKey"));
@@ -115,28 +122,36 @@ const EndPage = ({ endPageText }) => {
                                 <span>{name}</span> - Result
                             </p>
                             <div className={styles.results_countainer}>
-                                <Doughnut data={chartData} />
+                                <div className={styles.doughnut_container}>
+                                    <Doughnut data={chartData} />
+                                </div>
                                 <div className={styles.side_count_container}>
                                     <div className={styles.side_count}>
                                         <p className={styles.count}>
-                                            {endScreen.noOfAttempts}
+                                            {(
+                                                (endScreen.noOfCorrects /
+                                                    endScreen.noOfAttempts) *
+                                                100
+                                            ).toFixed(2)}
+                                            %
                                         </p>
                                         <p className={styles.count_text}>
-                                            Questions Answered
+                                            Result Percentage
                                         </p>
                                     </div>
+                                    <br />
                                     <div className={styles.side_count}>
                                         <p className={styles.count}>
-                                            {endScreen.noOfAttempts}
+                                            {endScreen.totalTimeTaken}
                                         </p>
                                         <p className={styles.count_text}>
-                                            Questions Answered
+                                            Time Taken(seconds)
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* <div className={styles.results_container}>
+                            <div className={styles.results_container}>
                                 <div className={styles.results}>
                                     <div className={styles.result}>
                                         <p className={styles.count}>
@@ -165,7 +180,7 @@ const EndPage = ({ endPageText }) => {
                                         </p>
                                     </div>
                                 </div>
-                            </div> */}
+                            </div>
                         </p>
                     </div>
                 )}

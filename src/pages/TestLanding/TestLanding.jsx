@@ -106,23 +106,21 @@ const Landing = () => {
         {
             id: 1,
             title: "Minimum Requirements",
-            question:
-                "Do you have at least one hour of uninterrupted internet?",
+            question: "Do you have uninterrupted internet?",
             type: "yn"
         },
         {
             id: 2,
             title: "Enter Key",
             question:
-                "Enter the key which you just received in your mail to continue",
+                "Enter in a unqiue key to start the quiz, this key will be used to identify you.",
             type: "input"
         },
 
         {
             id: 3,
             title: "Ready to Start?",
-            question:
-                "Are you sure you have at least one hour of uninterrupted internet?",
+            question: "Are you sure you have uninterrupted internet?",
             type: "yn"
         }
     ];
