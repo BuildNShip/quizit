@@ -123,3 +123,19 @@
     font-weight: 400;
     text-align: center;
 }
+
+.results_countainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    row-gap: 1rem;
+}
+
+.pie_count {
+    width: 320px;
+    height: 320px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}

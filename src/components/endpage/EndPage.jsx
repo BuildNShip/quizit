@@ -2,12 +2,29 @@ import React, { useEffect, useState } from "react";
 import styles from "./EndPage.module.css";
 import { useParams } from "react-router-dom";
 import apiGateway from "../../services/apiGateway";
+import { Doughnut } from "react-chartjs-2";
+import "chart.js/auto";
 
 const EndPage = ({ endPageText }) => {
     const { name } = useParams();
     const userKey = sessionStorage.getItem("userKey");
     const [endScreen, setEndScreen] = useState({});
     const [responseType, setResponseType] = useState();
+    const [chartData, setChartData] = useState({
+        labels: ["Red", "Blue", "Yellow"],
+        datasets: [
+            {
+                label: "My First Dataset",
+                data: [300, 50, 100],
+                backgroundColor: [
+                    "rgb(255, 99, 132)",
+                    "rgb(54, 162, 235)",
+                    "rgb(255, 205, 86)"
+                ],
+                hoverOffset: 4
+            }
+        ]
+    });
 
     useEffect(() => {
         console.log(localStorage.getItem("userKey"));
@@ -28,6 +45,24 @@ const EndPage = ({ endPageText }) => {
                     response.data.response.answerLog.length === 0
                 ) {
                     setResponseType(1);
+                    setChartData({
+                        labels: ["Correct", "Wrong"],
+                        datasets: [
+                            {
+                                label: "Number of questions",
+                                data: [
+                                    response.data.response.noOfCorrects,
+                                    response.data.response.noOfAttempts -
+                                        response.data.response.noOfCorrects
+                                ],
+                                backgroundColor: [
+                                    "rgb(247, 134, 43)",
+                                    "rgb(63, 63, 63)"
+                                ],
+                                hoverOffset: 4
+                            }
+                        ]
+                    });
                 } else if (!response.data.response.answerLog[0].correctAnswer) {
                     setResponseType(2);
                 } else {
@@ -79,8 +114,29 @@ const EndPage = ({ endPageText }) => {
                                 {" "}
                                 <span>{name}</span> - Result
                             </p>
+                            <div className={styles.results_countainer}>
+                                <Doughnut data={chartData} />
+                                <div className={styles.side_count_container}>
+                                    <div className={styles.side_count}>
+                                        <p className={styles.count}>
+                                            {endScreen.noOfAttempts}
+                                        </p>
+                                        <p className={styles.count_text}>
+                                            Questions Answered
+                                        </p>
+                                    </div>
+                                    <div className={styles.side_count}>
+                                        <p className={styles.count}>
+                                            {endScreen.noOfAttempts}
+                                        </p>
+                                        <p className={styles.count_text}>
+                                            Questions Answered
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div className={styles.results_container}>
+                            {/* <div className={styles.results_container}>
                                 <div className={styles.results}>
                                     <div className={styles.result}>
                                         <p className={styles.count}>
@@ -109,7 +165,7 @@ const EndPage = ({ endPageText }) => {
                                         </p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </p>
                     </div>
                 )}
