@@ -42,9 +42,8 @@ const EndPage = ({ endPageText }) => {
                         )}
                         <p className={styles.fv_heading}>{endPageText}</p>
                         <p className={styles.fv_tagline}>
-                            Thanks for taking our quiz! We'll review your
-                            results and get back to you soon. Good luck with
-                            your job search!
+                            Thanks for taking our quiz! We hope you enjoyed it. We
+                            will be back with more quizzes soon. Stay tuned!
                         </p>
                         <div className={styles.results_container}>
                             <div className={styles.results}>

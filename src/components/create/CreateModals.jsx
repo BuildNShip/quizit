@@ -204,7 +204,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 To Download sample template file for questions.
                                 <Link
                                     color="orange"
-                                    href="/path/to/sample/file"
+                                    href="./questions.json"
                                     download
                                     style={{ marginTop: "-3rem" }}
                                 >
@@ -223,7 +223,12 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 </Button> */}
                             </Flex>
                         </Box>
-                        <p className={styles.customize_landing}>
+                        <p
+                            onClick={() => {
+                                setClickAction(1);
+                            }}
+                            className={styles.customize_landing}
+                        >
                             Customize Landing Page?
                         </p>
                         <div className={styles.button_container}>

@@ -42,6 +42,9 @@
 .customize_landing {
     margin-top: 1rem;
     text-align: start;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #e69451;
 }
 
 .button_container {
