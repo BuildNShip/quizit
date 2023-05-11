@@ -98,6 +98,7 @@ const Landing = () => {
         if (count === quizQuestions.length && quizQuestions.length > 0) {
             setIsMappingDone(true);
             setInitialQuestions(-1);
+            console.log("mapping done");
         }
     }, [quizQuestions, questionNumber]);
 
