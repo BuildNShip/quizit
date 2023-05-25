@@ -1,0 +1,7 @@
+.background_container {
+    background-color: #000000;
+    min-height: 100vh;
+    font-family: "Manrope", sans-serif;
+    color: #ffffff;
+    padding: 1rem;
+}
