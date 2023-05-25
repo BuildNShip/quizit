@@ -1,14 +1,14 @@
 [
     {
         "id": 1,
-        "question": "What is the correct way to define a function in Python?",
+        "question": "## What is the correct way to define a function in Python?What is the correct way to define a function in Python?What is the correct way to define a function in Python?What is the correct way to define a function in Python?What is the correct way to define a function in Python?",
         "choices": [
             {
                 "value": "a) def function_name()",
                 "correct": false
             },
             {
-                "value": "b) function name()",
+                "value": "b) function name()What is the correct way to define a function in Python?What is the correct way to define a function in Python?What is the correct way to define a function in Python?",
                 "correct": false
             },
             {
@@ -23,7 +23,7 @@
     },
     {
         "id": 2,
-        "question": "Which Python keyword is used to define a variable?",
+        "question": "# Which Python keyword is used to define a variable?",
         "choices": [
             {
                 "value": "a) var",
@@ -45,7 +45,7 @@
     },
     {
         "id": 3,
-        "question": "What is the correct way to comment a single line in Python?",
+        "question": "## What is the correct way to comment a single line in Python?",
         "choices": [
             {
                 "value": "a) /* comment */",
@@ -67,7 +67,7 @@
     },
     {
         "id": 4,
-        "question": "Which of the following is NOT a data type in Python?",
+        "question": "### Which of the following is NOT a data - type in Python?",
         "choices": [
             {
                 "value": "a) int",
@@ -89,7 +89,7 @@
     },
     {
         "id": 5,
-        "question": "How do you concatenate two lists in Python?",
+        "question": "A paragraph with *emphasis* and **strong importance**.\n\n> A block quote with \t\t\t ~strikethrough~ and a URL: https://reactjs.org.\n\n* Lists\n* [ ] todo\n* [x] done\n\nA table:\n\n| a | b |\n| - | - |\n",
         "choices": [
             {
                 "value": "a) list1 + list2",
@@ -111,7 +111,7 @@
     },
     {
         "id": 6,
-        "question": "Which of the following is NOT a Python standard library module?",
+        "question": "# Which of the <br/> following is NOT a Python standard \n library module?",
         "choices": [
             {
                 "value": "a) math",
@@ -133,7 +133,7 @@
     },
     {
         "id": 7,
-        "question": "What is the correct way to import a module in Python?",
+        "question": "#What is the correct way to import a module in Python?",
         "choices": [
             {
                 "value": "a) include <module>",

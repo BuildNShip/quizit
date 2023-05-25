@@ -1,5 +1,6 @@
 import { useState, CSSProperties } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
+import remarkGfm from "remark-gfm";
 
 import {
     Button,
@@ -12,9 +13,12 @@ import {
     ModalOverlay,
     Box,
     Text,
-    useToast
+    useToast,
+    FormControl,
+    Radio
 } from "@chakra-ui/react";
 import apiGateway from "../../services/apiGateway";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 const Questions = ({
     eventName,
@@ -89,10 +93,7 @@ const Questions = ({
         }
     };
     return (
-        <Box
-            bg="rgba(0, 0, 0, 0.6)"
-            zIndex={100}
-        >
+        <Box bg="rgba(0, 0, 0, 0.6)" zIndex={100}>
             <Box
                 bg="#1f1f1f"
                 color="#ffffff"
@@ -102,26 +103,35 @@ const Questions = ({
                 maxWidth="500px"
                 textAlign="center"
             >
-                <Box fontWeight="600" mb="1rem">
-                    {question}
+                <Box
+                    color="#d463fe"
+                    textAlign="left"
+                    ml="1rem"
+                    fontWeight="600"
+                    mb="1rem"
+                >
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {question}
+                    </ReactMarkdown>
                 </Box>
                 <Box fontWeight="600" mb="1rem">
                     {choices.map(choice => (
-                        <Button
+                        <FormControl
+                            display="flex"
                             key={choice.id}
-                            margin="0.25rem"
-                            className="choice"
-                            colorScheme={
-                                userAnswer === choice.value
-                                    ? "orange"
-                                    : "blackAlpha"
-                            }
-                            onClick={() => {
-                                setUserAnswer(choice.value);
-                            }}
+                            textAlign="left"
+                            marginBottom="0.5rem"
                         >
-                            {choice.value}
-                        </Button>
+                            <Radio
+                                textAlign="left"
+                                value={choice.value}
+                                isChecked={userAnswer === choice.value}
+                                onChange={() => setUserAnswer(choice.value)}
+                                colorScheme="orange"
+                            >
+                                {choice.value}
+                            </Radio>
+                        </FormControl>
                     ))}
                 </Box>
                 <Button

@@ -204,7 +204,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 To Download sample template file for questions.
                                 <Link
                                     color="orange"
-                                    href="./questions.json"
+                                    href="https://drive.google.com/uc?export=download&id=11hiP5EGXwU-KuSezKCBx9VWpoFw3uUCA"
                                     download
                                     style={{ marginTop: "-3rem" }}
                                 >
