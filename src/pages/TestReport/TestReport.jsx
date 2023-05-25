@@ -10,7 +10,8 @@ import {
     Th,
     Td,
     Heading,
-    Text
+    Text,
+    Box
 } from "@chakra-ui/react";
 import {
     Button,
@@ -24,6 +25,7 @@ import {
     ModalHeader,
     useDisclosure
 } from "@chakra-ui/react";
+import Footer from "../../components/footer/Footer";
 
 const TestReport = () => {
     const { name } = useParams();
@@ -44,9 +46,9 @@ const TestReport = () => {
                 setHasPassword(value);
                 onOpen();
 
-                // if (!hasPassword) {
-                //     getReport();
-                // }
+                if (!hasPassword) {
+                    getReport();
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -60,7 +62,8 @@ const TestReport = () => {
             .then(response => {
                 const value = response.data.response.datas;
                 setReport(value);
-                setHasPassword(true); //change to false
+                console.log(value);
+                setHasPassword(false);
             })
             .catch(error => {
                 console.log(error);
@@ -69,7 +72,7 @@ const TestReport = () => {
 
     return (
         <div className={styles.background_container}>
-            {!hasPassword ? (
+            {hasPassword ? (
                 <>
                     <Modal
                         isOpen={isOpen}
@@ -115,13 +118,13 @@ const TestReport = () => {
                     </Modal>
                 </>
             ) : (
-                <>
+                <Box maxW="1300px" mx="auto" my="2rem">
                     <Heading color="orange" as="h1" mb={2}>
                         Quiz Report Table
                     </Heading>
 
                     <Text fontSize="sm" mb={4}>
-                        The participants of the quiz are listed below. alongside
+                        The participants of the quiz are listed below, alongside
                         their count.
                     </Text>
                     <Text fontSize="lg" mb={4}>
@@ -137,18 +140,22 @@ const TestReport = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {report.map((item, index) => (
-                                <Tr key={index}>
-                                    <Td>{item.userKey}</Td>
-                                    <Td>{item.noOfCorrects}</Td>
-                                    <Td>{item.noOfAttempts}</Td>
-                                    <Td>{item.totalTimeTaken}</Td>
-                                </Tr>
-                            ))}
+                            {report &&
+                                Array.isArray(report) &&
+                                report.length > 0 &&
+                                report.map((item, index) => (
+                                    <Tr key={index}>
+                                        <Td>{item.userKey}</Td>
+                                        <Td>{item.noOfCorrects}</Td>
+                                        <Td>{item.noOfAttempts}</Td>
+                                        <Td>{item.totalTimeTaken}</Td>
+                                    </Tr>
+                                ))}
                         </Tbody>
                     </Table>
-                </>
+                </Box>
             )}
+            <Footer />
         </div>
     );
 };
