@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styles from "./CreateModals.module.css";
-import { Box, Flex, Textarea } from "@chakra-ui/react";
+import { Box, Checkbox, Flex, Textarea } from "@chakra-ui/react";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { Link, Button } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
@@ -15,6 +16,7 @@ const CreateModals = ({ isOpen, onClose }) => {
         testTitle: "",
         testDescription: "",
         reportPassword: null,
+        viewreportPassword: false,
         showScore: true,
         showAnswerLog: false,
         showCorrectAnswer: false,
@@ -231,6 +233,14 @@ const CreateModals = ({ isOpen, onClose }) => {
                         >
                             Customize Landing Page?
                         </p>
+                        <p
+                            onClick={() => {
+                                setClickAction(2);
+                            }}
+                            className={styles.customize_landing}
+                        >
+                            Advanced Options
+                        </p>
                         <div className={styles.button_container}>
                             <button
                                 onClick={e => {
@@ -311,6 +321,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 </Button>
                             </Flex>
                         </FormControl>
+
                         <Flex mt={4} justify="flex-end">
                             <Button
                                 variant="ghost"
@@ -366,6 +377,55 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 OK
                             </Button>
                         </Flex>
+                    </Box>
+                </div>
+            )}
+            {clickAction === 2 && (
+                <div className={styles.modal_container}>
+                    <Box className={styles.box_container}>
+                        <FormControl mt={4}>
+                            <Checkbox
+                                onChange={{
+                                    ...formValues,
+                                    showScore: !formValues.showScore
+                                }}
+                            >
+                                Show Score
+                            </Checkbox>
+                        </FormControl>
+
+                        <FormControl mt={4}>
+                            <Checkbox
+                                onChange={{
+                                    ...formValues,
+                                    showAnswerLog: !formValues.showAnswerLog
+                                }}
+                            >
+                                Show Answer Log
+                            </Checkbox>
+                        </FormControl>
+
+                        <FormControl mt={4}>
+                            <Checkbox
+                                onChange={{
+                                    ...formValues,
+                                    viewreportPassword:
+                                        !formValues.viewreportPassword
+                                }}
+                            >
+                                Show Report
+                            </Checkbox>
+                        </FormControl>
+
+                        {formValues.viewreportPassword && (
+                            <FormControl mt="1rem">
+                                <Input placeholder="Enter Report Password" />
+                            </FormControl>
+                        )}
+
+                        <Button mt="2rem" colorScheme="orange">
+                            Submit
+                        </Button>
                     </Box>
                 </div>
             )}
