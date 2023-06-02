@@ -26,7 +26,9 @@ const CreateModals = ({ isOpen, onClose }) => {
         testLogo: null,
         showMarksPerUser: false,
         marksPerUser: null,
-        showTimer: false
+        showTimer: false,
+        privateReport: false,
+        generateReport: false
     });
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("No File Found");
@@ -454,58 +456,133 @@ const CreateModals = ({ isOpen, onClose }) => {
                                 onChange={e => {
                                     setFormValues(prevValues => ({
                                         ...prevValues,
-                                        showScore: !prevValues.showScore
+                                        showScore: !prevValues.showScore,
+                                        showAnswerLog: false,
+                                        showCorrectAnswer: false
                                     }));
                                 }}
                             >
-                               Show score in endscreen?
+                                Show score in endscreen?
                             </Checkbox>
                         </FormControl>
 
-                        <FormControl mt={4}>
-                            <Checkbox
-                                defaultChecked={formValues.showAnswerLog}
-                                onChange={e => {
-                                    setFormValues(prevValues => ({
-                                        ...prevValues,
-                                        showAnswerLog: !prevValues.showAnswerLog
-                                    }));
-                                }}
-                            >
-                                Show Answer Log
-                            </Checkbox>
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <Checkbox
-                                defaultChecked={formValues.viewreportPassword}
-                                onChange={e => {
-                                    setFormValues(prevValues => {
-                                        const updatedValues = {
-                                            ...prevValues,
-                                            viewreportPassword:
-                                                !prevValues.viewreportPassword
-                                        };
-                                        return updatedValues;
-                                    });
-                                }}
-                            >
-                                Show Report
-                            </Checkbox>
-                        </FormControl>
-
-                        {formValues.viewreportPassword && (
-                            <FormControl mt="1rem">
-                                <Input
+                        {formValues.showScore && (
+                            <FormControl mt={4}>
+                                <Checkbox
+                                    defaultChecked={formValues.showAnswerLog}
                                     onChange={e => {
                                         setFormValues(prevValues => ({
                                             ...prevValues,
-                                            reportPassword: e.target.value
+                                            showAnswerLog:
+                                                !prevValues.showAnswerLog
+                                        }));
+                                        if (formValues.showAnswerLog) {
+                                            setFormValues(prevValues => ({
+                                                ...prevValues,
+                                                showCorrectAnswer: false
+                                            }));
+                                        }
+                                    }}
+                                >
+                                    Do you want to show answer log?
+                                </Checkbox>
+                            </FormControl>
+                        )}
+
+                        {formValues.showAnswerLog && (
+                            <FormControl mt={4}>
+                                <Checkbox
+                                    defaultChecked={
+                                        formValues.showCorrectAnswer
+                                    }
+                                    onChange={e => {
+                                        setFormValues(prevValues => ({
+                                            ...prevValues,
+                                            showCorrectAnswer:
+                                                !prevValues.showCorrectAnswer
                                         }));
                                     }}
-                                    placeholder="Enter Report Password"
-                                />
+                                >
+                                    Do you want to show correct answers?
+                                </Checkbox>
                             </FormControl>
+                        )}
+
+                        {formValues.showScore && (
+                            <>
+                                <FormControl mt={4}>
+                                    <Checkbox
+                                        defaultChecked={
+                                            formValues.generateReport
+                                        }
+                                        onChange={e => {
+                                            setFormValues(prevValues => {
+                                                const updatedValues = {
+                                                    ...prevValues,
+                                                    generateReport:
+                                                        !prevValues.generateReport
+                                                };
+                                                return updatedValues;
+                                            });
+
+                                            if (formValues.generateReport) {
+                                                setFormValues(prevValues => ({
+                                                    ...prevValues,
+                                                    viewreportPassword: false
+                                                }));
+                                            }
+                                        }}
+                                    >
+                                        Do you want to generate admin report?
+                                    </Checkbox>
+                                </FormControl>
+
+                                {formValues.generateReport && (
+                                    <>
+                                        <FormControl mt={4}>
+                                            <Checkbox
+                                                defaultChecked={
+                                                    formValues.viewreportPassword
+                                                }
+                                                onChange={e => {
+                                                    setFormValues(
+                                                        prevValues => {
+                                                            const updatedValues =
+                                                                {
+                                                                    ...prevValues,
+                                                                    viewreportPassword:
+                                                                        !prevValues.viewreportPassword
+                                                                };
+                                                            return updatedValues;
+                                                        }
+                                                    );
+                                                }}
+                                            >
+                                                Do you want to make the report
+                                                private?
+                                            </Checkbox>
+                                        </FormControl>
+
+                                        {formValues.viewreportPassword && (
+                                            <FormControl mt="1rem">
+                                                <Input
+                                                    onChange={e => {
+                                                        setFormValues(
+                                                            prevValues => ({
+                                                                ...prevValues,
+                                                                reportPassword:
+                                                                    e.target
+                                                                        .value
+                                                            })
+                                                        );
+                                                    }}
+                                                    placeholder="Enter Report Password"
+                                                />
+                                            </FormControl>
+                                        )}
+                                    </>
+                                )}
+                            </>
                         )}
 
                         <Button
