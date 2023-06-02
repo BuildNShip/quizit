@@ -385,9 +385,12 @@ const CreateModals = ({ isOpen, onClose }) => {
                     <Box className={styles.box_container}>
                         <FormControl mt={4}>
                             <Checkbox
-                                onChange={{
-                                    ...formValues,
-                                    showScore: !formValues.showScore
+                                defaultChecked={formValues.showScore}
+                                onChange={e => {
+                                    setFormValues(prevValues => ({
+                                        ...prevValues,
+                                        showScore: !prevValues.showScore
+                                    }));
                                 }}
                             >
                                 Show Score
@@ -396,9 +399,12 @@ const CreateModals = ({ isOpen, onClose }) => {
 
                         <FormControl mt={4}>
                             <Checkbox
-                                onChange={{
-                                    ...formValues,
-                                    showAnswerLog: !formValues.showAnswerLog
+                                defaultChecked={formValues.showAnswerLog}
+                                onChange={e => {
+                                    setFormValues(prevValues => ({
+                                        ...prevValues,
+                                        showAnswerLog: !prevValues.showAnswerLog
+                                    }));
                                 }}
                             >
                                 Show Answer Log
@@ -407,10 +413,16 @@ const CreateModals = ({ isOpen, onClose }) => {
 
                         <FormControl mt={4}>
                             <Checkbox
-                                onChange={{
-                                    ...formValues,
-                                    viewreportPassword:
-                                        !formValues.viewreportPassword
+                            defaultChecked={formValues.viewreportPassword}
+                                onChange={e => {
+                                    setFormValues(prevValues => {
+                                        const updatedValues = {
+                                            ...prevValues,
+                                            viewreportPassword:
+                                                !prevValues.viewreportPassword
+                                        };
+                                        return updatedValues;
+                                    });
                                 }}
                             >
                                 Show Report
@@ -419,11 +431,27 @@ const CreateModals = ({ isOpen, onClose }) => {
 
                         {formValues.viewreportPassword && (
                             <FormControl mt="1rem">
-                                <Input placeholder="Enter Report Password" />
+                                <Input
+                                    onChange={e => {
+                                        setFormValues(prevValues => ({
+                                            ...prevValues,
+                                            reportPassword: e.target.value
+                                        }));
+                                    }}
+                                    placeholder="Enter Report Password"
+                                />
                             </FormControl>
                         )}
 
-                        <Button mt="2rem" colorScheme="orange">
+                        <Button
+                            onClick={() => {
+                                onClose();
+                                setClickAction(0);
+                                console.log(formValues);
+                            }}
+                            mt="2rem"
+                            colorScheme="orange"
+                        >
                             Submit
                         </Button>
                     </Box>
