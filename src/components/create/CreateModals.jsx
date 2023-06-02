@@ -23,7 +23,10 @@ const CreateModals = ({ isOpen, onClose }) => {
         questionsPerUser: null,
         totalTime: null,
         questionFile: null,
-        testLogo: null
+        testLogo: null,
+        showMarksPerUser: false,
+        marksPerUser: null,
+        showTimer: false
     });
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("No File Found");
@@ -385,6 +388,68 @@ const CreateModals = ({ isOpen, onClose }) => {
                     <Box className={styles.box_container}>
                         <FormControl mt={4}>
                             <Checkbox
+                                defaultChecked={formValues.showMarksPerUser}
+                                onChange={e => {
+                                    setFormValues(prevValues => {
+                                        const updatedValues = {
+                                            ...prevValues,
+                                            showMarksPerUser:
+                                                !prevValues.showMarksPerUser
+                                        };
+                                        return updatedValues;
+                                    });
+                                }}
+                            >
+                                Do you want to set marks for each question?
+                            </Checkbox>
+                        </FormControl>
+
+                        {formValues.showMarksPerUser && (
+                            <FormControl mt="1rem">
+                                <Input
+                                    onChange={e => {
+                                        setFormValues(prevValues => ({
+                                            ...prevValues,
+                                            marksPerUser: e.target.value
+                                        }));
+                                    }}
+                                    placeholder="Enter marks per question"
+                                />
+                            </FormControl>
+                        )}
+
+                        <FormControl mt={4}>
+                            <Checkbox
+                                defaultChecked={formValues.showTimer}
+                                onChange={e => {
+                                    setFormValues(prevValues => {
+                                        const updatedValues = {
+                                            ...prevValues,
+                                            showTimer: !prevValues.showTimer
+                                        };
+                                        return updatedValues;
+                                    });
+                                }}
+                            >
+                                How much time is required(ms)?
+                            </Checkbox>
+                        </FormControl>
+
+                        {formValues.showTimer && (
+                            <FormControl mt="1rem">
+                                <Input
+                                    onChange={e => {
+                                        setFormValues(prevValues => ({
+                                            ...prevValues,
+                                            totalTime: e.target.value
+                                        }));
+                                    }}
+                                    placeholder="Enter Total Time(ms)"
+                                />
+                            </FormControl>
+                        )}
+                        <FormControl mt={4}>
+                            <Checkbox
                                 defaultChecked={formValues.showScore}
                                 onChange={e => {
                                     setFormValues(prevValues => ({
@@ -393,7 +458,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     }));
                                 }}
                             >
-                                Show Score
+                               Show score in endscreen?
                             </Checkbox>
                         </FormControl>
 
@@ -413,7 +478,7 @@ const CreateModals = ({ isOpen, onClose }) => {
 
                         <FormControl mt={4}>
                             <Checkbox
-                            defaultChecked={formValues.viewreportPassword}
+                                defaultChecked={formValues.viewreportPassword}
                                 onChange={e => {
                                     setFormValues(prevValues => {
                                         const updatedValues = {
