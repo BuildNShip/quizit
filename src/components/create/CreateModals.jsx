@@ -398,6 +398,14 @@ const CreateModals = ({ isOpen, onClose }) => {
                                         };
                                         return updatedValues;
                                     });
+
+                                    if (!formValues.showTimer) {
+                                        setFormValues(prevValues => ({
+                                            ...prevValues,
+
+                                            totalTime: null
+                                        }));
+                                    }
                                 }}
                             >
                                 How much time is required(ms)?
@@ -407,6 +415,8 @@ const CreateModals = ({ isOpen, onClose }) => {
                         {formValues.showTimer && (
                             <FormControl mt="1rem" ml={4}>
                                 <Input
+                                    value={formValues.totalTime}
+                                    type="number"
                                     maxWidth={"20rem"}
                                     onChange={e => {
                                         setFormValues(prevValues => ({
@@ -440,6 +450,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                         {formValues.showQuestionsPerUser && (
                             <FormControl mt="1rem" ml={4}>
                                 <Input
+                                    value={formValues.questionsPerUser}
                                     maxWidth={"20rem"}
                                     onChange={e => {
                                         setFormValues(prevValues => ({
@@ -562,6 +573,9 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     {formValues.viewreportPassword && (
                                         <FormControl mt="1rem" ml={4}>
                                             <Input
+                                                value={
+                                                    formValues.reportPassword
+                                                }
                                                 maxWidth={"20rem"}
                                                 onChange={e => {
                                                     setFormValues(
@@ -582,6 +596,24 @@ const CreateModals = ({ isOpen, onClose }) => {
 
                         <Button
                             onClick={() => {
+                                if (
+                                    formValues.showTimer &&
+                                    (!formValues.totalTime ||
+                                        formValues.totalTime <= 0 ||
+                                        !Number.isInteger(
+                                            Number(formValues.totalTime)
+                                        ))
+                                ) {
+                                    toast({
+                                        title: "Please Enter Valid Total Time",
+                                        variant: "toast",
+                                        position: "bottom",
+                                        duration: 1000,
+                                        isClosable: true
+                                    });
+                                    return;
+                                }
+
                                 onClose();
                                 setClickAction(0);
                                 console.log(formValues);
