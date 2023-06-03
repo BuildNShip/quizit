@@ -614,6 +614,39 @@ const CreateModals = ({ isOpen, onClose }) => {
                                     return;
                                 }
 
+                                if (
+                                    formValues.showQuestionsPerUser &&
+                                    (!formValues.questionsPerUser ||
+                                        formValues.questionsPerUser <= 0 ||
+                                        !Number.isInteger(
+                                            Number(formValues.questionsPerUser)
+                                        ))
+                                ) {
+                                    toast({
+                                        title: "Please Enter Valid Number of Questions",
+                                        variant: "toast",
+                                        position: "bottom",
+                                        duration: 1000,
+                                        isClosable: true
+                                    });
+                                    return;
+                                }
+
+                                if (
+                                    formValues.viewreportPassword &&
+                                    (!formValues.reportPassword ||
+                                        formValues.reportPassword.length < 3)
+                                ) {
+                                    toast({
+                                        title: "Please Enter Valid Report Password",
+                                        variant: "toast",
+                                        position: "bottom",
+                                        duration: 1000,
+                                        isClosable: true
+                                    });
+                                    return;
+                                }
+
                                 onClose();
                                 setClickAction(0);
                                 console.log(formValues);
