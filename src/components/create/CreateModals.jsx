@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import styles from "./CreateModals.module.css";
-import { Box, Checkbox, Flex, Textarea } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Flex, Link, Textarea } from "@chakra-ui/react";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
-import { Link, Button } from "@chakra-ui/react";
+import { ClipLoader } from "react-spinners";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import apiGateway from "../../services/apiGateway";
@@ -34,6 +33,7 @@ const CreateModals = ({ isOpen, onClose }) => {
 
     const [logo, setLogo] = useState(null);
     const [logoName, setLogoName] = useState("No File Found");
+    const [loading, setLoading] = useState(false);
     const toast = useToast();
 
     const handleFileChange = e => {
@@ -140,6 +140,9 @@ const CreateModals = ({ isOpen, onClose }) => {
                             }
                         );
                     }
+                })
+                .finally(() => {
+                    setLoading(false);
                 });
         }
 
@@ -248,11 +251,19 @@ const CreateModals = ({ isOpen, onClose }) => {
                         <div className={styles.button_container}>
                             <button
                                 onClick={e => {
+                                    setLoading(true);
                                     handleSubmit(e);
                                 }}
                                 className={styles.button}
                             >
-                                Create Test
+                                <span>Create Test</span>
+                                <ClipLoader
+                                    color="#303030"
+                                    size={25}
+                                    loading={loading}
+                                    aria-label="Loading Spinner"
+                                    data-testid="loader"
+                                />
                             </button>
                             <button
                                 onClick={() => {
@@ -391,6 +402,13 @@ const CreateModals = ({ isOpen, onClose }) => {
                             <Checkbox
                                 defaultChecked={formValues.showTimer}
                                 onChange={e => {
+                                    if (formValues.showTimer) {
+                                        setFormValues(prevValues => ({
+                                            ...prevValues,
+                                            totalTime: null
+                                        }));
+                                    }
+
                                     setFormValues(prevValues => {
                                         const updatedValues = {
                                             ...prevValues,
@@ -398,14 +416,6 @@ const CreateModals = ({ isOpen, onClose }) => {
                                         };
                                         return updatedValues;
                                     });
-
-                                    if (!formValues.showTimer) {
-                                        setFormValues(prevValues => ({
-                                            ...prevValues,
-
-                                            totalTime: null
-                                        }));
-                                    }
                                 }}
                             >
                                 How much time is required(ms)?
@@ -433,6 +443,13 @@ const CreateModals = ({ isOpen, onClose }) => {
                             <Checkbox
                                 defaultChecked={formValues.showQuestionsPerUser}
                                 onChange={e => {
+                                    if (formValues.showQuestionsPerUser) {
+                                        setFormValues(prevValues => ({
+                                            ...prevValues,
+                                            questionsPerUser: null
+                                        }));
+                                    }
+
                                     setFormValues(prevValues => {
                                         const updatedValues = {
                                             ...prevValues,
@@ -555,6 +572,13 @@ const CreateModals = ({ isOpen, onClose }) => {
                                                 formValues.viewreportPassword
                                             }
                                             onChange={e => {
+                                                if (formValues.viewreportPassword) {
+                                                    setFormValues(prevValues => ({
+                                                        ...prevValues,
+                                                        reportPassword: null
+                                                    }));
+                                                }
+
                                                 setFormValues(prevValues => {
                                                     const updatedValues = {
                                                         ...prevValues,

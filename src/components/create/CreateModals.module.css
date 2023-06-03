@@ -67,6 +67,10 @@
     background-color: #e47d29;
     color: #000;
     transition: 0.3s ease-in-out;
+    display: flex;
+    column-gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
 }
 
 .button:hover {
