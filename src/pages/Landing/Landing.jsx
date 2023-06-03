@@ -43,14 +43,14 @@ const Landing = () => {
                     <div className={styles.first_view}>
                         <div className={styles.first_view_texts}>
                             <p className={styles.fv_heading}>
-                                Introducing <span>QuizIt</span>, the new way to
-                                learn and test your knowledge.
+                                Introducing <span>QuizIt</span>, The New Way to
+                                Learn and <span> Test your Knowledge.</span>
                             </p>
 
                             <p className={styles.fv_tagline}>
                                 QuizIt is a platform that allows you to create
                                 quizzes and test your knowledge. You can also
-                                participate in quizzes created by others.
+                                participate in public quizzes created by other.
                             </p>
 
                             <div className={styles.fv_buttons}>
