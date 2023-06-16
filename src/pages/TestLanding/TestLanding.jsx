@@ -24,7 +24,7 @@ const Landing = () => {
         "Thanks For Your Participation"
     );
     const [eventName, setEventName] = useState("");
-    const [timerTime, setTimerTime] = useState(0);
+    const [timerTime, setTimerTime] = useState(3600);
     const [statusCode, setStatusCode] = useState(0);
     const { name } = useParams();
     const toast = useToast();
@@ -178,12 +178,12 @@ const Landing = () => {
             })}
             {initialQuestions === 4 && quizQuestions && (
                 <div>
-                    {timerTime && timerTime > 0 && (
+                   
                         <Timer
                             timerTime={timerTime}
                             setTimerTime={setTimerTime}
                         />
-                    )}
+                    
                     {quizQuestions && quizQuestions.length !== 0 && (
                         <Box>
                             <Progress

@@ -10,6 +10,7 @@ const EndPage = ({ endPageText }) => {
     const userKey = sessionStorage.getItem("userKey");
     const [endScreen, setEndScreen] = useState({});
     const [responseType, setResponseType] = useState();
+    const [answerLog, setAnswerLog] = useState([]);
     const [chartData, setChartData] = useState({
         labels: ["Red", "Blue", "Yellow"],
         datasets: [
@@ -72,8 +73,10 @@ const EndPage = ({ endPageText }) => {
                     });
                 } else if (!response.data.response.answerLog[0].correctAnswer) {
                     setResponseType(2);
+                    setAnswerLog(response.data.response.answerLog);
                 } else {
                     setResponseType(3);
+                    setAnswerLog(response.data.response.answerLog);
                 }
             })
             .catch(error => {
@@ -85,6 +88,7 @@ const EndPage = ({ endPageText }) => {
         <div className={styles.background_container}>
             <div className={styles.first_view_container}>
                 {responseType === 0 && (
+                    //Default End Page
                     <div className={styles.first_view}>
                         <p className={styles.first_view_texts}>
                             {name && (
@@ -105,84 +109,159 @@ const EndPage = ({ endPageText }) => {
                         </p>
                     </div>
                 )}
-                {responseType == 1 && (
-                    <div className={styles.first_view}>
-                        <p className={styles.first_view_texts}>
-                            {name && (
-                                <img
-                                    src={`${
-                                        import.meta.env.VITE_BACKEND_URL
-                                    }quizit/v1/get-logo/${name}/`}
-                                    alt="Logo of the quiz"
-                                    className={styles.first_view_image}
-                                />
-                            )}
-                            <p className={styles.fv_heading}>
-                                {" "}
-                                <span>{name}</span> - Result
-                            </p>
-                            <div className={styles.results_countainer}>
-                                <div className={styles.doughnut_container}>
-                                    <Doughnut data={chartData} />
-                                </div>
-                                <div className={styles.side_count_container}>
-                                    <div className={styles.side_count}>
-                                        <p className={styles.count}>
-                                            {(
-                                                (endScreen.noOfCorrects /
-                                                    endScreen.noOfAttempts) *
-                                                100
-                                            ).toFixed(2)}
-                                            %
-                                        </p>
-                                        <p className={styles.count_text}>
-                                            Result Percentage
-                                        </p>
+                {responseType == 1 ||
+                    responseType == 2 ||
+                    (responseType == 3 && (
+                        //End Page without Answer Log
+                        <div className={styles.first_view}>
+                            <p className={styles.first_view_texts}>
+                                {name && (
+                                    <img
+                                        src={`${
+                                            import.meta.env.VITE_BACKEND_URL
+                                        }quizit/v1/get-logo/${name}/`}
+                                        alt="Logo of the quiz"
+                                        className={styles.first_view_image}
+                                    />
+                                )}
+                                <p className={styles.fv_heading}>
+                                    {" "}
+                                    <span>{name}</span> - Result
+                                </p>
+                                <div className={styles.results_countainer}>
+                                    <div className={styles.doughnut_container}>
+                                        <Doughnut data={chartData} />
                                     </div>
-                                    <br />
-                                    <div className={styles.side_count}>
-                                        <p className={styles.count}>
-                                            {endScreen.totalTimeTaken}
-                                        </p>
-                                        <p className={styles.count_text}>
-                                            Time Taken(seconds)
-                                        </p>
+                                    <div
+                                        className={styles.side_count_container}
+                                    >
+                                        <div className={styles.side_count}>
+                                            <p className={styles.count}>
+                                                {(
+                                                    (endScreen.noOfCorrects /
+                                                        endScreen.noOfAttempts) *
+                                                    100
+                                                ).toFixed(2)}
+                                                %
+                                            </p>
+                                            <p className={styles.count_text}>
+                                                Result Percentage
+                                            </p>
+                                        </div>
+                                        <br />
+                                        <div className={styles.side_count}>
+                                            <p className={styles.count}>
+                                                {endScreen.totalTimeTaken}
+                                            </p>
+                                            <p className={styles.count_text}>
+                                                Time Taken(seconds)
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className={styles.results_container}>
-                                <div className={styles.results}>
-                                    <div className={styles.result}>
-                                        <p className={styles.count}>
-                                            {endScreen.noOfAttempts}
-                                        </p>
-                                        <p className={styles.count_text}>
-                                            Questions Answered
-                                        </p>
-                                    </div>
-                                    <div className={styles.result}>
-                                        <p className={styles.count}>
-                                            {" "}
-                                            {endScreen.noOfCorrects}
-                                        </p>
-                                        <p className={styles.noOfCorrects}>
-                                            Correct Answers
-                                        </p>
-                                    </div>
-                                    <div className={styles.result}>
-                                        <p className={styles.count}>
-                                            {endScreen.noOfAttempts -
-                                                endScreen.noOfCorrects}
-                                        </p>
-                                        <p className={styles.count_text}>
-                                            Wrong Answers
-                                        </p>
+                                <div className={styles.results_container}>
+                                    <div className={styles.results}>
+                                        <div className={styles.result}>
+                                            <p className={styles.count}>
+                                                {endScreen.noOfAttempts}
+                                            </p>
+                                            <p className={styles.count_text}>
+                                                Questions Answered
+                                            </p>
+                                        </div>
+                                        <div className={styles.result}>
+                                            <p className={styles.count}>
+                                                {" "}
+                                                {endScreen.noOfCorrects}
+                                            </p>
+                                            <p className={styles.noOfCorrects}>
+                                                Correct Answers
+                                            </p>
+                                        </div>
+                                        <div className={styles.result}>
+                                            <p className={styles.count}>
+                                                {endScreen.noOfAttempts -
+                                                    endScreen.noOfCorrects}
+                                            </p>
+                                            <p className={styles.count_text}>
+                                                Wrong Answers
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </p>
+                        </div>
+                    ))}
+                {responseType === 2 && (
+                    //End Page with Answer Log
+                    <>
+                        <p className={styles.fv_heading}>
+                            The <span>Answer Log</span>
                         </p>
-                    </div>
+                        <div className={styles.answer_log_container}>
+                            {answerLog.map((answer, index) => (
+                                <div
+                                    className={styles.answer_log_item}
+                                    key={index}
+                                >
+                                    <div className={styles.question}>
+                                        {answer.question}
+                                    </div>
+                                    <div className={styles.answer}>
+                                        {answer.answer}
+                                    </div>
+                                    <div
+                                        className={`${styles.result} ${
+                                            answer.correct
+                                                ? styles.correct
+                                                : styles.incorrect
+                                        }`}
+                                    >
+                                        {answer.correct
+                                            ? "Correct"
+                                            : "Incorrect"}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
+                {responseType === 3 && (
+                    <>
+                        <p className={styles.fv_heading}>
+                            The Correct <span>Answer Log</span>
+                        </p>
+                        <div className={styles.answer_log_container}>
+                            {answerLog.map((answer, index) => (
+                                <div
+                                    className={styles.answer_log_item}
+                                    key={index}
+                                >
+                                    <div className={styles.question}>
+                                        {answer.question}
+                                    </div>
+                                    <div className={styles.answer}>
+                                        {answer.answer}
+                                    </div>
+                                    <div className={styles.crctanswer}>
+                                        Corrent Answer: {answer.correctAnswer}
+                                    </div>
+                                    <div
+                                        className={`${styles.result} ${
+                                            answer.correct
+                                                ? styles.correct
+                                                : styles.incorrect
+                                        }`}
+                                    >
+                                        {answer.correct
+                                            ? "Correct"
+                                            : "Incorrect"}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
                 )}
             </div>
         </div>

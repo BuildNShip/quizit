@@ -7,8 +7,10 @@ import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import apiGateway from "../../services/apiGateway";
 import { useParams } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const CreateModals = ({ isOpen, onClose }) => {
+    const navigate = useNavigate();
     const [clickAction, setClickAction] = useState(0);
     const [formValues, setFormValues] = useState({
         testName: "",
@@ -98,6 +100,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                 showAnswerLog: formValues.showAnswerLog,
                 showCorrectAnswers: formValues.showCorrectAnswer,
                 questionsPerUser: formValues.questionsPerUser,
+                hasReportPassword: formValues.viewreportPassword,
                 totalTime: formValues.totalTime,
                 testLogo: formValues.testLogo,
                 questionFile: formValues.questionFile
@@ -121,6 +124,7 @@ const CreateModals = ({ isOpen, onClose }) => {
                         duration: 5000,
                         isClosable: true
                     });
+                    navigate(`/${formValues.testName}`);
                 })
                 .catch(error => {
                     if (error.response.data.hasError) {
@@ -572,11 +576,15 @@ const CreateModals = ({ isOpen, onClose }) => {
                                                 formValues.viewreportPassword
                                             }
                                             onChange={e => {
-                                                if (formValues.viewreportPassword) {
-                                                    setFormValues(prevValues => ({
-                                                        ...prevValues,
-                                                        reportPassword: null
-                                                    }));
+                                                if (
+                                                    formValues.viewreportPassword
+                                                ) {
+                                                    setFormValues(
+                                                        prevValues => ({
+                                                            ...prevValues,
+                                                            reportPassword: null
+                                                        })
+                                                    );
                                                 }
 
                                                 setFormValues(prevValues => {
