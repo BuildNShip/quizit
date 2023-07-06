@@ -11,7 +11,9 @@ import {
     Td,
     Heading,
     Text,
-    Box
+    Box,
+    Toast,
+    useToast
 } from "@chakra-ui/react";
 import {
     Button,
@@ -33,6 +35,7 @@ const TestReport = () => {
     const [report, setReport] = React.useState({});
     const [hasPassword, setHasPassword] = React.useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
 
     useEffect(() => {
         setquizPassword(name);
@@ -67,6 +70,14 @@ const TestReport = () => {
             })
             .catch(error => {
                 console.log(error);
+                toast({
+                    title: error.response.data.message.general[0],
+                    variant: "toast",
+                    status: "error",
+                    position: "bottom",
+                    duration: 2500,
+                    isClosable: true
+                });
             });
     };
 

@@ -1,4 +1,4 @@
-import { useState, CSSProperties } from "react";
+import { useState, CSSProperties, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import remarkGfm from "remark-gfm";
 
@@ -38,6 +38,21 @@ const Questions = ({
     const [endTime, setEndTime] = useState(null);
     const [timeTaken, setTimeTaken] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const handleKeyPress = event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                handleSubmit();
+            }
+        };
+
+        document.addEventListener("keypress", handleKeyPress);
+
+        return () => {
+            document.removeEventListener("keypress", handleKeyPress);
+        };
+    }, []);
 
     const handleSubmit = () => {
         console.log(userAnswer);

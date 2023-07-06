@@ -25,12 +25,7 @@ const Timer = ({ timerTime, setTimerTime }) => {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
     return (
-        <Box
-            paddingTop="1rem"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-        >
+        <Box display="flex" justifyContent="center" alignItems="center">
             <img
                 src={`${
                     import.meta.env.VITE_BACKEND_URL

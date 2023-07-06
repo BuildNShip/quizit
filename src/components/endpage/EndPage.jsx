@@ -36,7 +36,7 @@ const EndPage = ({ endPageText }) => {
 
     useEffect(() => {
         console.log(localStorage.getItem("userKey"));
-        console.log("Reached Here!");
+
         apiGateway
             .get(
                 `/quizit/v1/end-screen/${name}/${sessionStorage.getItem(
@@ -52,6 +52,7 @@ const EndPage = ({ endPageText }) => {
                     !response.data.response.answerLog ||
                     response.data.response.answerLog.length === 0
                 ) {
+                    console.log("Reached Here!");
                     setResponseType(1);
                     setChartData({
                         labels: ["Correct", "Wrong"],
@@ -109,90 +110,88 @@ const EndPage = ({ endPageText }) => {
                         </p>
                     </div>
                 )}
-                {responseType == 1 ||
-                    responseType == 2 ||
-                    (responseType == 3 && (
-                        //End Page without Answer Log
-                        <div className={styles.first_view}>
-                            <p className={styles.first_view_texts}>
-                                {name && (
-                                    <img
-                                        src={`${
-                                            import.meta.env.VITE_BACKEND_URL
-                                        }quizit/v1/get-logo/${name}/`}
-                                        alt="Logo of the quiz"
-                                        className={styles.first_view_image}
-                                    />
-                                )}
-                                <p className={styles.fv_heading}>
-                                    {" "}
-                                    <span>{name}</span> - Result
-                                </p>
-                                <div className={styles.results_countainer}>
-                                    <div className={styles.doughnut_container}>
-                                        <Doughnut data={chartData} />
-                                    </div>
-                                    <div
-                                        className={styles.side_count_container}
-                                    >
-                                        <div className={styles.side_count}>
-                                            <p className={styles.count}>
-                                                {(
-                                                    (endScreen.noOfCorrects /
-                                                        endScreen.noOfAttempts) *
-                                                    100
-                                                ).toFixed(2)}
-                                                %
-                                            </p>
-                                            <p className={styles.count_text}>
-                                                Result Percentage
-                                            </p>
-                                        </div>
-                                        <br />
-                                        <div className={styles.side_count}>
-                                            <p className={styles.count}>
-                                                {endScreen.totalTimeTaken}
-                                            </p>
-                                            <p className={styles.count_text}>
-                                                Time Taken(seconds)
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className={styles.results_container}>
-                                    <div className={styles.results}>
-                                        <div className={styles.result}>
-                                            <p className={styles.count}>
-                                                {endScreen.noOfAttempts}
-                                            </p>
-                                            <p className={styles.count_text}>
-                                                Questions Answered
-                                            </p>
-                                        </div>
-                                        <div className={styles.result}>
-                                            <p className={styles.count}>
-                                                {" "}
-                                                {endScreen.noOfCorrects}
-                                            </p>
-                                            <p className={styles.noOfCorrects}>
-                                                Correct Answers
-                                            </p>
-                                        </div>
-                                        <div className={styles.result}>
-                                            <p className={styles.count}>
-                                                {endScreen.noOfAttempts -
-                                                    endScreen.noOfCorrects}
-                                            </p>
-                                            <p className={styles.count_text}>
-                                                Wrong Answers
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                {(responseType === 1 ||
+                    responseType === 2 ||
+                    responseType === 3) && (
+                    //End Page without Answer Log
+                    <div className={styles.first_view}>
+                        <p className={styles.first_view_texts}>
+                            {name && (
+                                <img
+                                    src={`${
+                                        import.meta.env.VITE_BACKEND_URL
+                                    }quizit/v1/get-logo/${name}/`}
+                                    alt="Logo of the quiz"
+                                    className={styles.first_view_image}
+                                />
+                            )}
+                            <p className={styles.fv_heading}>
+                                {" "}
+                                <span>{name}</span> - Result
                             </p>
-                        </div>
-                    ))}
+                            <div className={styles.results_countainer}>
+                                <div className={styles.doughnut_container}>
+                                    <Doughnut data={chartData} />
+                                </div>
+                                <div className={styles.side_count_container}>
+                                    <div className={styles.side_count}>
+                                        <p className={styles.count}>
+                                            {(
+                                                (endScreen.noOfCorrects /
+                                                    endScreen.noOfAttempts) *
+                                                100
+                                            ).toFixed(2)}
+                                            %
+                                        </p>
+                                        <p className={styles.count_text}>
+                                            Result Percentage
+                                        </p>
+                                    </div>
+                                    <br />
+                                    <div className={styles.side_count}>
+                                        <p className={styles.count}>
+                                            {endScreen.totalTimeTaken}
+                                        </p>
+                                        <p className={styles.count_text}>
+                                            Time Taken(seconds)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={styles.results_container}>
+                                <div className={styles.results}>
+                                    <div className={styles.result}>
+                                        <p className={styles.count}>
+                                            {endScreen.noOfAttempts}
+                                        </p>
+                                        <p className={styles.count_text}>
+                                            Questions Answered
+                                        </p>
+                                    </div>
+                                    <div className={styles.result}>
+                                        <p className={styles.count}>
+                                            {" "}
+                                            {endScreen.noOfCorrects}
+                                        </p>
+                                        <p className={styles.noOfCorrects}>
+                                            Correct Answers
+                                        </p>
+                                    </div>
+                                    <div className={styles.result}>
+                                        <p className={styles.count}>
+                                            {endScreen.noOfAttempts -
+                                                endScreen.noOfCorrects}
+                                        </p>
+                                        <p className={styles.count_text}>
+                                            Wrong Answers
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+                )}
                 {responseType === 2 && (
                     //End Page with Answer Log
                     <>

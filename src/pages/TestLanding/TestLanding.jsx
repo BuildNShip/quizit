@@ -56,7 +56,7 @@ const Landing = () => {
                         title: error.response.data.message.general[0],
                         variant: "toast",
                         status: "error",
-                        position: "top",
+                        position: "bottom",
                         duration: 2500,
                         isClosable: true
                     });
